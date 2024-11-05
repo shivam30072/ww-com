@@ -35,6 +35,11 @@ a {
   text-decoration: none;
 }
 
+.g-spacing {
+  padding: 0rem 1rem;
+  background-color: #f1f2f4;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
