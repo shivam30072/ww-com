@@ -56,7 +56,10 @@ const Navbar = () => {
           alignItems: "center",
         }}
       >
-        <Box width={{ xs: "40px", sm: "50px" }}>
+        <Box
+          width={{ xs: "40px", sm: "50px" }}
+          onClick={() => router.push("/")}
+        >
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/c/c4/WWE_official_logo.svg"
             alt="logo"
