@@ -40,6 +40,23 @@ a {
   background-color: #f1f2f4;
 }
 
+/* Define the slide-in-from-top animation */
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Apply the animation */
+.slide-in {
+  animation: slideInFromTop 0.8s ease-out;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

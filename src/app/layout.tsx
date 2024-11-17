@@ -30,7 +30,7 @@ export default function RootLayout({
     // testing pull
     <html lang="en">
       <StoreProvider>
-        <body>
+        <body className="slide-in">
           <Navbar />
           <div className="g-spacing">{children}</div>
           <Footer />

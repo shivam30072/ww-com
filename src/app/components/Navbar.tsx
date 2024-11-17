@@ -31,7 +31,7 @@ const NavbarItem = ({ icon: Icon, label, onClick }: NavbarItemProps) => (
 
 const Navbar = () => {
   const [isLoginModalOpen, setLoginModalOpen] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const router = useRouter();
 
   const handleLoginOpen = () => setLoginModalOpen(true);
@@ -90,7 +90,7 @@ const Navbar = () => {
               background: "#f0f5ff",
             }}
             type="text"
-            placeholder="Search For Products"
+            placeholder="Search for products"
           />
         </Box>
 
