@@ -4,6 +4,7 @@ import ProductCard from "./components/home/ProductCard";
 import { categoryTypes, productTypes } from "./types";
 import CategoryCard from "./components/home/CategoryCard";
 import Heading from "./components/utils/Heading";
+import ImageSlider from "./components/home/ImageSlider"
 
 const productList: productTypes[] = [
   {
@@ -199,6 +200,7 @@ export default function Home() {
   // const counterState = useAppSelector((state) => state.counter.value);
   return (
     <Box>
+      <ImageSlider />
       <Heading title="Shop by Category" textAlign="center" />
 
       <Box
