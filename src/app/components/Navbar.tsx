@@ -3,10 +3,11 @@
 import { LocationOnOutlined, Search } from "@mui/icons-material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Drawer, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoginModal from "../modals/LoginModal";
+import Cart from "./cart/Cart";
 
 type NavbarItemProps = {
   icon: React.ElementType;
@@ -31,15 +32,18 @@ const NavbarItem = ({ icon: Icon, label, onClick }: NavbarItemProps) => (
 
 const Navbar = () => {
   const [isLoginModalOpen, setLoginModalOpen] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   const router = useRouter();
+
+  const [drawerState, setDrawerState] = useState<boolean>(false);
 
   const handleLoginOpen = () => setLoginModalOpen(true);
   const handleModalClose = () => setLoginModalOpen(false);
 
   const handleCartClick = () => {
     if (isLoggedIn) {
-      router.push("/cart");
+      // router.push("/cart");
+      setDrawerState(true);
     } else {
       setLoginModalOpen(true);
     }
@@ -109,6 +113,7 @@ const Navbar = () => {
       </Box>
 
       <LoginModal open={isLoginModalOpen} onClose={handleModalClose} />
+      <Cart drawerState={drawerState} setDrawerState={setDrawerState} />
     </Container>
   );
 };
