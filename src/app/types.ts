@@ -1,4 +1,5 @@
 export type productTypes = {
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -17,4 +18,9 @@ export type categoryTypes = {
   name: string;
   description: string;
   image: string;
+};
+
+export type cartStateTypes = {
+  products: (productTypes & { quantity: number })[];
+  cartSum: number;
 };

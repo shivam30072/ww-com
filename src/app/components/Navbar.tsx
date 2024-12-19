@@ -50,7 +50,9 @@ const Navbar = () => {
   };
 
   return (
-    <Container>
+    <Container
+      sx={{ position: "sticky", top: 0, bgcolor: "#fff", zIndex: 100 }}
+    >
       <Box
         sx={{
           py: 1,

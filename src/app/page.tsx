@@ -4,10 +4,11 @@ import ProductCard from "./components/home/ProductCard";
 import { categoryTypes, productTypes } from "./types";
 import CategoryCard from "./components/home/CategoryCard";
 import Heading from "./components/utils/Heading";
-import ImageSlider from "./components/home/ImageSlider"
+import ImageSlider from "./components/home/ImageSlider";
 
 const productList: productTypes[] = [
   {
+    id: "3",
     name: "Wireless Bluetooth Headphones",
     description:
       "High-quality wireless Bluetooth headphones with noise-canceling features and long battery life.",
@@ -25,6 +26,7 @@ const productList: productTypes[] = [
     ],
   },
   {
+    id: "4",
     name: "Gaming Laptop",
     description:
       "A powerful gaming laptop with a high-refresh-rate display, advanced cooling system, and RGB keyboard.",
@@ -42,6 +44,7 @@ const productList: productTypes[] = [
     ],
   },
   {
+    id: "5",
     name: "Stainless Steel Water Bottle",
     description:
       "Eco-friendly and durable stainless steel water bottle with a sleek design and insulated feature.",
@@ -59,6 +62,7 @@ const productList: productTypes[] = [
     ],
   },
   {
+    id: "6",
     name: "Men's Running Shoes",
     description:
       "Lightweight and comfortable running shoes designed for daily jogging and sports activities.",
@@ -76,6 +80,7 @@ const productList: productTypes[] = [
     ],
   },
   {
+    id: "7",
     name: "Wireless Bluetooth Headphones",
     description:
       "High-quality wireless Bluetooth headphones with noise-canceling features and long battery life.",
@@ -93,6 +98,7 @@ const productList: productTypes[] = [
     ],
   },
   {
+    id: "8",
     name: "Gaming Laptop",
     description:
       "A powerful gaming laptop with a high-refresh-rate display, advanced cooling system, and RGB keyboard.",
@@ -110,6 +116,7 @@ const productList: productTypes[] = [
     ],
   },
   {
+    id: "9",
     name: "Stainless Steel Water Bottle",
     description:
       "Eco-friendly and durable stainless steel water bottle with a sleek design and insulated feature.",
@@ -127,6 +134,7 @@ const productList: productTypes[] = [
     ],
   },
   {
+    id: "10",
     name: "Men's Running Shoes",
     description:
       "Lightweight and comfortable running shoes designed for daily jogging and sports activities.",
@@ -214,7 +222,7 @@ export default function Home() {
         }}
       >
         {categoryList.map((category) => (
-          <Box key={category.name}>
+          <Box key={category.image}>
             <CategoryCard categoryData={category} />
           </Box>
         ))}
@@ -224,7 +232,7 @@ export default function Home() {
       <Box sx={{ p: 2 }}>
         <Grid2 container spacing={2}>
           {productList.map((product) => (
-            <Grid2 size={{ xs: 12, sm: 6, md: 3 }} key={product.name}>
+            <Grid2 size={{ xs: 12, sm: 6, md: 3 }} key={product.id}>
               <ProductCard productData={product} />
             </Grid2>
           ))}

@@ -1,4 +1,6 @@
 import { productTypes } from "@/app/types";
+import { addToCart } from "@/lib/features/CartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { CurrencyRupee, ShoppingCart } from "@mui/icons-material";
 import { Box, Typography, Button } from "@mui/material";
 import { useState } from "react";
@@ -9,6 +11,17 @@ type productDataProp = {
 
 const ProductCard = ({ productData }: productDataProp) => {
   const [hovered, setHovered] = useState(false);
+
+  const { products } = useAppSelector((state) => state.Cart);
+  const dispatch = useAppDispatch();
+
+  const isInCart = products.some((product) => product.id === productData.id);
+
+  const handleAddToCart = () => {
+    if (!isInCart) {
+      dispatch(addToCart(productData));
+    }
+  };
 
   return (
     <Box
@@ -30,12 +43,12 @@ const ProductCard = ({ productData }: productDataProp) => {
           top: "43%",
           left: 0,
           width: "100%",
-          height: "30%", // Cover bottom half of the card
+          height: "30%",
           background:
             "linear-gradient(to top right, rgba(0, 0, 0, 0.5), transparent)",
           opacity: hovered ? 1 : 0,
           transition: "opacity 0.3s ease",
-          pointerEvents: "none", // Prevent it from interfering with interactions
+          pointerEvents: "none",
           zIndex: 0,
         },
       }}
@@ -57,7 +70,7 @@ const ProductCard = ({ productData }: productDataProp) => {
         <Box
           sx={{
             position: "absolute",
-            bottom: 0, // Start from bottom
+            bottom: 0,
             left: 0,
             width: "100%",
             display: "flex",
@@ -73,17 +86,17 @@ const ProductCard = ({ productData }: productDataProp) => {
         >
           <Button
             endIcon={<ShoppingCart />}
-            onClick={() => {
-              console.log("dlickd");
-            }}
+            onClick={handleAddToCart}
+            disabled={isInCart} // Disable button if already in cart
             sx={{
               width: "100%",
               textTransform: "none",
-              bgcolor: "#FF4433",
+              bgcolor: isInCart ? "#ccc" : "#FF4433",
               color: "#fff",
+              cursor: isInCart ? "not-allowed" : "pointer",
             }}
           >
-            Add to Cart
+            {isInCart ? "Added to Cart" : "Add to Cart"}
           </Button>
           <Button
             endIcon={<CurrencyRupee />}
