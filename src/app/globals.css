@@ -52,6 +52,15 @@ a {
   }
 }
 
+.sticky-navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 /* Apply the animation */
 .slide-in {
   animation: slideInFromTop 0.8s ease-out;

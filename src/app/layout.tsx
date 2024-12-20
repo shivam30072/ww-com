@@ -31,7 +31,9 @@ export default function RootLayout({
     <html lang="en">
       <StoreProvider>
         <body className="slide-in">
-          <Navbar />
+          <div className="sticky-navbar">
+            <Navbar />
+          </div>
           <div className="g-spacing">{children}</div>
           <Footer />
         </body>

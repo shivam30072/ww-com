@@ -3,11 +3,12 @@
 import { LocationOnOutlined, Search } from "@mui/icons-material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { Box, Container, Drawer, Typography } from "@mui/material";
+import { Badge, Box, Container, Drawer, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoginModal from "../modals/LoginModal";
 import Cart from "./cart/Cart";
+import { useAppSelector } from "@/lib/hooks";
 
 type NavbarItemProps = {
   icon: React.ElementType;
@@ -40,6 +41,8 @@ const Navbar = () => {
   const handleLoginOpen = () => setLoginModalOpen(true);
   const handleModalClose = () => setLoginModalOpen(false);
 
+  const { products } = useAppSelector((state) => state.Cart);
+
   const handleCartClick = () => {
     if (isLoggedIn) {
       // router.push("/cart");
@@ -50,9 +53,7 @@ const Navbar = () => {
   };
 
   return (
-    <Container
-      sx={{ position: "sticky", top: 0, bgcolor: "#fff", zIndex: 100 }}
-    >
+    <Container>
       <Box
         sx={{
           py: 1,
@@ -101,11 +102,13 @@ const Navbar = () => {
         </Box>
 
         <Box display={"flex"} px={{ xs: 0, sm: 2 }} gap={{ xs: 1, sm: 4 }}>
-          <NavbarItem
-            icon={ShoppingCartOutlinedIcon}
-            label="Cart"
-            onClick={handleCartClick}
-          />
+          <Badge badgeContent={products.length} color="error">
+            <NavbarItem
+              icon={ShoppingCartOutlinedIcon}
+              label="Cart"
+              onClick={handleCartClick}
+            />
+          </Badge>
           <NavbarItem
             icon={AccountCircleOutlinedIcon}
             label="Login"

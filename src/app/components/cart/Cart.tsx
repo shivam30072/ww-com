@@ -1,4 +1,5 @@
-import { useAppSelector } from "@/lib/hooks";
+import { addToCart, removeFromCart } from "@/lib/features/CartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Close } from "@mui/icons-material";
 import { Box, Drawer, IconButton, Typography } from "@mui/material";
 
@@ -7,7 +8,9 @@ type cartProps = {
   setDrawerState: (state: boolean) => void;
 };
 const Cart = ({ drawerState, setDrawerState }: cartProps) => {
-  const cartItems = useAppSelector((state) => state.Cart.products);
+  const { products, cartSum } = useAppSelector((state) => state.Cart);
+
+  const dispatch = useAppDispatch();
 
   return (
     <Drawer
@@ -38,11 +41,56 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
         </Box>
 
         {/* Cart Content */}
-        {cartItems.length > 0 ? (
-          <Box>
-            {cartItems.map((product) => (
-              <Box key={product.id}>
-                <Typography variant="body1">{product.name}</Typography>
+        {products.length > 0 ? (
+          <Box flex={1} overflow="auto" mt={2}>
+            {products.map((product, index) => (
+              <Box
+                key={product.id}
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                mb={2}
+                p={1}
+                border="1px solid #ddd"
+                borderRadius="8px"
+              >
+                {/* Product Image */}
+                <Box flex="0 0 60px" mr={2}>
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    style={{ width: "100%", borderRadius: "8px" }}
+                  />
+                </Box>
+
+                {/* Product Details */}
+                <Box flex={1}>
+                  <Typography variant="body1" fontWeight="bold">
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    ₹{product.finalPrice.toFixed(2)}
+                  </Typography>
+                </Box>
+
+                {/* Quantity Controls */}
+                <Box display="flex" alignItems="center">
+                  <IconButton
+                    onClick={() => dispatch(removeFromCart(product.id))}
+                    size="small"
+                  >
+                    -
+                  </IconButton>
+                  <Typography variant="body2" mx={1}>
+                    {product.quantity}
+                  </Typography>
+                  <IconButton
+                    onClick={() => dispatch(addToCart(product))}
+                    size="small"
+                  >
+                    +
+                  </IconButton>
+                </Box>
               </Box>
             ))}
           </Box>
@@ -61,7 +109,13 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
         )}
 
         {/* Footer */}
-        <Box></Box>
+        {products.length > 0 && (
+          <Box mt={2} pt={2} borderTop="1px solid #ddd">
+            <Typography variant="h6" textAlign="right">
+              Total: ₹ {cartSum.toFixed(2)}
+            </Typography>
+          </Box>
+        )}
       </Box>
     </Drawer>
   );

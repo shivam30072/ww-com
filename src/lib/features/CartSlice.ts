@@ -33,7 +33,7 @@ export const CartSlice = createSlice({
       } else {
         state.products.push({ ...action.payload, quantity: 1 });
       }
-      state.cartSum += action.payload.price;
+      state.cartSum += action.payload.finalPrice;
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       const productIndex = state.products.findIndex(
@@ -43,16 +43,16 @@ export const CartSlice = createSlice({
         const product = state.products[productIndex];
         if (product.quantity > 1) {
           product.quantity -= 1;
-          state.cartSum -= product.price;
+          state.cartSum -= product.finalPrice;
         } else {
-          state.cartSum -= product.price;
+          state.cartSum -= product.finalPrice;
           state.products.splice(productIndex, 1);
         }
       }
     },
     calculateTotalSum: (state) => {
       state.cartSum = state.products.reduce(
-        (sum, product) => sum + product.price * product.quantity,
+        (sum, product) => sum + product.finalPrice * product.quantity,
         0
       );
     },
