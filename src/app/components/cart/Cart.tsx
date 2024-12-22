@@ -1,7 +1,8 @@
 import { addToCart, removeFromCart } from "@/lib/features/CartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Close } from "@mui/icons-material";
-import { Box, Drawer, IconButton, Typography } from "@mui/material";
+import { Box, Button, Drawer, IconButton, Typography } from "@mui/material";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 type cartProps = {
   drawerState: boolean;
@@ -12,6 +13,7 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
 
   const dispatch = useAppDispatch();
 
+  const isCartEmpty = products.length === 0;
   return (
     <Drawer
       anchor={"right"}
@@ -41,7 +43,7 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
         </Box>
 
         {/* Cart Content */}
-        {products.length > 0 ? (
+        {!isCartEmpty ? (
           <Box flex={1} overflow="auto" mt={2}>
             {products.map((product, index) => (
               <Box
@@ -109,8 +111,27 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
         )}
 
         {/* Footer */}
-        {products.length > 0 && (
-          <Box mt={2} pt={2} borderTop="1px solid #ddd">
+        {!isCartEmpty && (
+          <Box
+            mt={2}
+            pt={2}
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            borderTop="1px solid #ddd"
+          >
+            <Button
+              endIcon={<ArrowForwardIcon />}
+              sx={{
+                width: "50%",
+                textTransform: "none",
+                bgcolor: "#FF4433",
+                color: "#fff",
+                cursor: "pointer",
+              }}
+            >
+              Checkout
+            </Button>
             <Typography variant="h6" textAlign="right">
               Total: ₹ {cartSum.toFixed(2)}
             </Typography>

@@ -55,15 +55,17 @@ const ProductCard = ({ productData }: productDataProp) => {
     >
       {/* Product Image */}
       <Box
-        component="img"
-        src={productData.images[0]}
-        alt={productData.name}
         sx={{
           width: "100%",
-          height: 300,
-          objectFit: "cover",
+          overflow: "hidden",
         }}
-      />
+      >
+        <img
+          src={productData.images[0]}
+          alt={productData.name}
+          style={{ width: "100%", height: 300, objectFit: "contain" }}
+        />
+      </Box>
 
       {/* Buttons (Add to Cart & Buy Now) */}
       {hovered && (
