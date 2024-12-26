@@ -3,6 +3,7 @@ import { addToCart } from "@/lib/features/CartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { CurrencyRupee, ShoppingCart } from "@mui/icons-material";
 import { Box, Typography, Button } from "@mui/material";
+import Link from "next/link";
 import { useState } from "react";
 
 type productDataProp = {
@@ -36,6 +37,7 @@ const ProductCard = ({ productData }: productDataProp) => {
         transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
           transform: "scale(1.05)",
+          boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
         },
         "&::after": {
           content: '""',
@@ -54,19 +56,20 @@ const ProductCard = ({ productData }: productDataProp) => {
       }}
     >
       {/* Product Image */}
-      <Box
-        sx={{
-          width: "100%",
-          overflow: "hidden",
-        }}
-      >
-        <img
-          src={productData.images[0]}
-          alt={productData.name}
-          style={{ width: "100%", height: 300, objectFit: "contain" }}
-        />
-      </Box>
-
+      <Link href={`/product/${productData.id}`} passHref>
+        <Box
+          sx={{
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <img
+            src={productData.images[0]}
+            alt={productData.name}
+            style={{ width: "100%", height: 300, objectFit: "contain" }}
+          />
+        </Box>
+      </Link>
       {/* Buttons (Add to Cart & Buy Now) */}
       {hovered && (
         <Box
