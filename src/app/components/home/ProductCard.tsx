@@ -1,9 +1,13 @@
+"use client";
+
 import { productTypes } from "@/app/types";
 import { addToCart } from "@/lib/features/CartSlice";
+import { addToCheckout } from "@/lib/features/CheckoutSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { CurrencyRupee, ShoppingCart } from "@mui/icons-material";
 import { Box, Typography, Button } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type productDataProp = {
@@ -18,10 +22,16 @@ const ProductCard = ({ productData }: productDataProp) => {
 
   const isInCart = products.some((product) => product.id === productData.id);
 
+  const router = useRouter();
+
   const handleAddToCart = () => {
     if (!isInCart) {
       dispatch(addToCart(productData));
     }
+  };
+  const handleAddToCheckout = () => {
+    dispatch(addToCheckout(productData));
+    router.push("/checkout");
   };
 
   return (
@@ -105,6 +115,7 @@ const ProductCard = ({ productData }: productDataProp) => {
           </Button>
           <Button
             endIcon={<CurrencyRupee />}
+            onClick={handleAddToCheckout}
             sx={{
               width: "100%",
               textTransform: "none",

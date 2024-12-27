@@ -24,3 +24,8 @@ export type cartStateTypes = {
   products: (productTypes & { quantity: number })[];
   cartSum: number;
 };
+
+export type checkoutStateTypes = {
+  products: (productTypes & { quantity: number })[];
+  totSum: number;
+};
