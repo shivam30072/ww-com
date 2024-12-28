@@ -6,152 +6,429 @@ import CategoryCard from "./components/home/CategoryCard";
 import Heading from "./components/utils/Heading";
 import ImageSlider from "./components/home/ImageSlider";
 
-const productList: productTypes[] = [
+const productList: productTypes[] =  [
   {
-    id: "3",
-    name: "Wireless Bluetooth Headphones",
-    description:
-      "High-quality wireless Bluetooth headphones with noise-canceling features and long battery life.",
-    price: 5000,
-    discount: 10,
-    finalPrice: 4500,
-    stock: 120,
-    category: "Electronics",
-    brand: "SoundWave",
-    tags: ["audio", "wireless", "headphones"],
-    totalReviewsCount: 200,
-    averageRating: 4.5,
-    images: [
-      "https://www.beatitude.in/cdn/shop/articles/DSC_2173_720x_dec1d27e-c2a7-4ce7-8b21-654c0ca12e43_1024x.webp?v=1675162397",
-    ],
+      "discount": 15,
+      "stock": 200,
+      "tags": [
+          "saree",
+          "traditional",
+          "elegant",
+          "silk"
+      ],
+      "totalReviewsCount": 2,
+      "averageRating": 3.5,
+      "name": "Classic Saree",
+      "sku": "SAREE123",
+      "description": "A traditional and elegant saree made from premium fabric, perfect for all occasions.",
+      "price": 99.99,
+      "finalPrice": 84.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://png.pngtree.com/thumb_back/fh260/background/20230331/pngtree-woman-in-a-blue-saree-photo-image_2161954.jpg",
+                  "https://png.pngtree.com/thumb_back/fh260/background/20230331/pngtree-woman-in-a-blue-saree-photo-image_2161949.jpg"
+              ],
+              "colorName": "Blue"
+          },
+          {
+              "images": [
+                  "https://images.wallpapersden.com/image/download/celina-jaitly-in-green-saree-hd-pics_aWZpZ26UmZqaraWkpJRmZWdprWxrbQ.jpg",
+                  "https://i.pinimg.com/736x/92/76/fb/9276fbe2871f6d5e7c251bf6e7028a24.jpg"
+              ],
+              "colorName": "Green"
+          }
+      ],
+      "reviews": [
+          {
+              "userId": "672f138c6090c2215c603e4e",
+              "rating": 4,
+              "comment": "Great product! Very satisfied with the quality and performance.",
+              "createdAt": "2024-12-16T03:26:16.276Z"
+          },
+          {
+              "userId": "675d6c8a144b2a43ab1bf4fc",
+              "rating": 3,
+              "comment": "Great product! Cloth is too good.",
+              "createdAt": "2024-12-16T03:28:43.241Z"
+          }
+      ],
+      "id": "672f2c1f0eaa8064881f3e0b"
   },
   {
-    id: "4",
-    name: "Gaming Laptop",
-    description:
-      "A powerful gaming laptop with a high-refresh-rate display, advanced cooling system, and RGB keyboard.",
-    price: 120000,
-    discount: 15,
-    finalPrice: 102000,
-    stock: 35,
-    category: "Computers",
-    brand: "GameTech",
-    tags: ["gaming", "laptop", "high-performance"],
-    totalReviewsCount: 150,
-    averageRating: 4.7,
-    images: [
-      "https://cdn.shopify.com/s/files/1/0182/1471/5470/files/traditional_saree_600x600.jpg?v=1636999791",
-    ],
+      "discount": 12,
+      "stock": 180,
+      "tags": [
+          "saree",
+          "festive",
+          "elegant",
+          "yellow"
+      ],
+      "totalReviewsCount": 0,
+      "averageRating": 0,
+      "name": "Elegant Yellow Saree",
+      "sku": "SAREE125",
+      "description": "A vibrant yellow saree that combines elegance and charm, perfect for festive occasions.",
+      "price": 109.99,
+      "finalPrice": 96.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://cdn.rajwadi.com/image/cache/data/yellow-color-contemporary-saree-38561-800x1100.jpg",
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK1_WKAkR2z13Mw6AMY2fcbtF9ICSC55vjubl-cVgYPnS47KUlkRA927n5s0PWLNVF4lY&usqp=CAU",
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcpa6cJZbpWhstS9PbAhgjE8VY3aPN-EaWrnTi4RnANjBU3Syz48CPJtumSK2u5-mzU4k&usqp=CAU"
+              ],
+              "colorName": "Yellow"
+          }
+      ],
+      "reviews": [],
+      "id": "675d4668126e616e7c02f6d7"
   },
   {
-    id: "5",
-    name: "Stainless Steel Water Bottle",
-    description:
-      "Eco-friendly and durable stainless steel water bottle with a sleek design and insulated feature.",
-    price: 800,
-    discount: 5,
-    finalPrice: 760,
-    stock: 300,
-    category: "Lifestyle",
-    brand: "EcoDrink",
-    tags: ["bottle", "eco-friendly", "hydration"],
-    totalReviewsCount: 50,
-    averageRating: 4.3,
-    images: [
-      "https://cdn.shopify.com/s/files/1/1762/5129/files/women-in-patiala-salwar-from-punjab.jpg?v=1654655251",
-    ],
+      "discount": 10,
+      "stock": 150,
+      "tags": [
+          "saree",
+          "traditional",
+          "elegant",
+          "silk",
+          "red"
+      ],
+      "totalReviewsCount": 0,
+      "averageRating": 0,
+      "name": "Classic Red Saree",
+      "sku": "SAREE124",
+      "description": "A beautiful red saree made from premium fabric, ideal for any traditional occasion.",
+      "price": 129.99,
+      "finalPrice": 116.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://cdn.pixabay.com/photo/2024/05/18/18/34/ai-generated-8770842_1280.jpg",
+                  "https://cdn.pixabay.com/photo/2022/06/02/04/57/model-7237020_640.jpg",
+                  "https://cdn.pixabay.com/photo/2014/05/22/14/43/sari-351103_640.jpg"
+              ],
+              "colorName": "Red"
+          }
+      ],
+      "reviews": [],
+      "id": "675d4668126e616e7c02f6d9"
   },
   {
-    id: "6",
-    name: "Men's Running Shoes",
-    description:
-      "Lightweight and comfortable running shoes designed for daily jogging and sports activities.",
-    price: 2500,
-    discount: 20,
-    finalPrice: 2000,
-    stock: 60,
-    category: "Footwear",
-    brand: "SpeedStep",
-    tags: ["shoes", "sports", "running"],
-    totalReviewsCount: 120,
-    averageRating: 4.6,
-    images: [
-      "https://cdn0.weddingwire.in/article/0199/original/1280/jpg/119910-houseofnoori-in.jpeg",
-    ],
+      "discount": 15,
+      "stock": 220,
+      "tags": [
+          "saree",
+          "traditional",
+          "elegant",
+          "silk",
+          "blue"
+      ],
+      "totalReviewsCount": 0,
+      "averageRating": 0,
+      "name": "Traditional Blue Saree",
+      "sku": "SAREE126",
+      "description": "A graceful blue saree crafted from premium silk fabric, ideal for special occasions.",
+      "price": 119.99,
+      "finalPrice": 101.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://i.pinimg.com/736x/ea/db/5d/eadb5d15d975b0c5933359534465cb19.jpg",
+                  "https://i.pinimg.com/474x/bf/ea/42/bfea4219f0c9b0632ef3f0f91929e754.jpg",
+                  "https://i.pinimg.com/736x/e1/99/00/e19900cdfda281610625198a030f6a11.jpg"
+              ],
+              "colorName": "Blue"
+          }
+      ],
+      "reviews": [],
+      "id": "675d4668126e616e7c02f6db"
   },
   {
-    id: "7",
-    name: "Wireless Bluetooth Headphones",
-    description:
-      "High-quality wireless Bluetooth headphones with noise-canceling features and long battery life.",
-    price: 5000,
-    discount: 10,
-    finalPrice: 4500,
-    stock: 120,
-    category: "Electronics",
-    brand: "SoundWave",
-    tags: ["audio", "wireless", "headphones"],
-    totalReviewsCount: 200,
-    averageRating: 4.5,
-    images: [
-      "https://www.beatitude.in/cdn/shop/articles/DSC_2173_720x_dec1d27e-c2a7-4ce7-8b21-654c0ca12e43_1024x.webp?v=1675162397",
-    ],
+      "discount": 20,
+      "stock": 100,
+      "tags": [
+          "saree",
+          "royal",
+          "wedding",
+          "red"
+      ],
+      "totalReviewsCount": 0,
+      "averageRating": 0,
+      "name": "Royal Red Saree",
+      "sku": "SAREE127",
+      "description": "A rich red saree that exudes royalty, perfect for weddings and formal events.",
+      "price": 149.99,
+      "finalPrice": 119.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://cdn.pixabay.com/photo/2014/06/05/14/38/saree-362756_640.jpg",
+                  "https://cdn.pixabay.com/photo/2020/12/13/20/27/woman-5829242_640.jpg",
+                  "https://cdn.pixabay.com/photo/2020/12/13/20/27/woman-5829241_640.jpg"
+              ],
+              "colorName": "Red"
+          }
+      ],
+      "reviews": [],
+      "id": "675d4668126e616e7c02f6dd"
   },
   {
-    id: "8",
-    name: "Gaming Laptop",
-    description:
-      "A powerful gaming laptop with a high-refresh-rate display, advanced cooling system, and RGB keyboard.",
-    price: 120000,
-    discount: 15,
-    finalPrice: 102000,
-    stock: 35,
-    category: "Computers",
-    brand: "GameTech",
-    tags: ["gaming", "laptop", "high-performance"],
-    totalReviewsCount: 150,
-    averageRating: 4.7,
-    images: [
-      "https://cdn.shopify.com/s/files/1/0182/1471/5470/files/traditional_saree_600x600.jpg?v=1636999791",
-    ],
+      "discount": 18,
+      "stock": 175,
+      "tags": [
+          "saree",
+          "vibrant",
+          "elegant",
+          "yellow"
+      ],
+      "totalReviewsCount": 0,
+      "averageRating": 0,
+      "name": "Bright Yellow Saree",
+      "sku": "SAREE128",
+      "description": "A lively yellow saree, adding charm and vibrancy to any occasion.",
+      "price": 109.99,
+      "finalPrice": 89.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://cdn.rajwadi.com/image/cache/data/yellow-color-contemporary-saree-38561-800x1100.jpg",
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK1_WKAkR2z13Mw6AMY2fcbtF9ICSC55vjubl-cVgYPnS47KUlkRA927n5s0PWLNVF4lY&usqp=CAU",
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcpa6cJZbpWhstS9PbAhgjE8VY3aPN-EaWrnTi4RnANjBU3Syz48CPJtumSK2u5-mzU4k&usqp=CAU"
+              ],
+              "colorName": "Yellow"
+          }
+      ],
+      "reviews": [],
+      "id": "675d4668126e616e7c02f6df"
   },
   {
-    id: "9",
-    name: "Stainless Steel Water Bottle",
-    description:
-      "Eco-friendly and durable stainless steel water bottle with a sleek design and insulated feature.",
-    price: 800,
-    discount: 5,
-    finalPrice: 760,
-    stock: 300,
-    category: "Lifestyle",
-    brand: "EcoDrink",
-    tags: ["bottle", "eco-friendly", "hydration"],
-    totalReviewsCount: 50,
-    averageRating: 4.3,
-    images: [
-      "https://cdn.shopify.com/s/files/1/1762/5129/files/women-in-patiala-salwar-from-punjab.jpg?v=1654655251",
-    ],
+      "discount": 10,
+      "stock": 210,
+      "tags": [
+          "saree",
+          "elegant",
+          "silk",
+          "blue"
+      ],
+      "totalReviewsCount": 0,
+      "averageRating": 0,
+      "name": "Classic Blue Saree",
+      "sku": "SAREE129",
+      "description": "A timeless blue saree made with high-quality silk, perfect for special gatherings.",
+      "price": 119.99,
+      "finalPrice": 107.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://i.pinimg.com/736x/c0/c8/e0/c0c8e0b07b92cd36258029c4fbf9677d.jpg",
+                  "https://img.freepik.com/premium-photo/aiyuj-wearing-blue-saree-photo-shoot_961875-289365.jpg",
+                  "https://i.pinimg.com/736x/ea/db/5d/eadb5d15d975b0c5933359534465cb19.jpg"
+              ],
+              "colorName": "Blue"
+          }
+      ],
+      "reviews": [],
+      "id": "675d4668126e616e7c02f6e1"
   },
   {
-    id: "10",
-    name: "Men's Running Shoes",
-    description:
-      "Lightweight and comfortable running shoes designed for daily jogging and sports activities.",
-    price: 2500,
-    discount: 20,
-    finalPrice: 2000,
-    stock: 60,
-    category: "Footwear",
-    brand: "SpeedStep",
-    tags: ["shoes", "sports", "running"],
-    totalReviewsCount: 120,
-    averageRating: 4.6,
-    images: [
-      "https://cdn0.weddingwire.in/article/0199/original/1280/jpg/119910-houseofnoori-in.jpeg",
-    ],
+      "discount": 5,
+      "stock": 160,
+      "tags": [
+          "saree",
+          "charming",
+          "red",
+          "silk"
+      ],
+      "totalReviewsCount": 0,
+      "averageRating": 0,
+      "name": "Charming Red Saree",
+      "sku": "SAREE130",
+      "description": "A charming red saree for festive and traditional occasions, made from luxurious fabric.",
+      "price": 134.99,
+      "finalPrice": 128.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://cdn.pixabay.com/photo/2019/02/18/11/28/mehendi-4004296_640.jpg",
+                  "https://cdn.pixabay.com/photo/2015/04/22/15/08/saree-734917_640.jpg",
+                  "https://cdn.pixabay.com/photo/2023/08/25/04/29/ai-generated-8212082_640.png"
+              ],
+              "colorName": "Red"
+          }
+      ],
+      "reviews": [],
+      "id": "675d4668126e616e7c02f6e3"
   },
-];
+  {
+      "discount": 20,
+      "stock": 190,
+      "tags": [
+          "saree",
+          "elegant",
+          "modern",
+          "yellow"
+      ],
+      "totalReviewsCount": 0,
+      "averageRating": 0,
+      "name": "Elegant Yellow Saree",
+      "sku": "SAREE131",
+      "description": "An elegant yellow saree with a contemporary touch, perfect for modern yet traditional looks.",
+      "price": 114.99,
+      "finalPrice": 91.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://cdn.rajwadi.com/image/cache/data/yellow-color-contemporary-saree-38561-800x1100.jpg",
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK1_WKAkR2z13Mw6AMY2fcbtF9ICSC55vjubl-cVgYPnS47KUlkRA927n5s0PWLNVF4lY&usqp=CAU",
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcpa6cJZbpWhstS9PbAhgjE8VY3aPN-EaWrnTi4RnANjBU3Syz48CPJtumSK2u5-mzU4k&usqp=CAU"
+              ],
+              "colorName": "Yellow"
+          }
+      ],
+      "reviews": [],
+      "id": "675d4668126e616e7c02f6e5"
+  },
+  {
+      "discount": 15,
+      "stock": 250,
+      "tags": [
+          "saree",
+          "elegant",
+          "blue",
+          "silk"
+      ],
+      "totalReviewsCount": 0,
+      "averageRating": 0,
+      "name": "Blue Elegance Saree",
+      "sku": "SAREE132",
+      "description": "A beautifully crafted blue saree made from silk, suitable for elegant gatherings.",
+      "price": 119.99,
+      "finalPrice": 101.99,
+      "category": {
+          "name": "Saree",
+          "description": "A traditional Indian garment, often worn by women.",
+          "id": "672f292496da1256705e0a76"
+      },
+      "brand": "TraditionalElegance",
+      "specifications": {
+          "material": "Silk",
+          "fit": "Regular",
+          "care": "Dry Clean Only"
+      },
+      "colors": [
+          {
+              "images": [
+                  "https://i.pinimg.com/736x/c0/c8/e0/c0c8e0b07b92cd36258029c4fbf9677d.jpg",
+                  "https://img.freepik.com/premium-photo/aiyuj-wearing-blue-saree-photo-shoot_961875-289365.jpg",
+                  "https://i.pinimg.com/736x/ea/db/5d/eadb5d15d975b0c5933359534465cb19.jpg"
+              ],
+              "colorName": "Blue"
+          }
+      ],
+      "reviews": [],
+      "id": "675d4668126e616e7c02f6e7"
+  }
+]
 
 const categoryList: categoryTypes[] = [
   {
