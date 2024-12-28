@@ -1,6 +1,11 @@
-import { addToCart, removeFromCart } from "@/lib/features/CartSlice";
+import {
+  addToCart,
+  calculateTotalSum,
+  removeFromCart,
+  removeProduct,
+} from "@/lib/features/CartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { Close } from "@mui/icons-material";
+import { Close, DeleteOutline } from "@mui/icons-material";
 import { Box, Button, Drawer, IconButton, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -21,7 +26,7 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
       onClose={() => setDrawerState(false)}
       sx={{
         "& .MuiDrawer-paper": {
-          width: { xs: "80%", sm: "50%", md: "30%" }, // Responsive width
+          width: { xs: "80%", sm: "50%", md: "40%" }, // Responsive width
           padding: 2,
         },
       }}
@@ -59,7 +64,7 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
                 {/* Product Image */}
                 <Box flex="0 0 60px" mr={2}>
                   <img
-                    src={product.images[0]}
+                    src={product.colors[0].images[0]}
                     alt={product.name}
                     style={{ width: "100%", borderRadius: "8px" }}
                   />
@@ -76,7 +81,11 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
                 </Box>
 
                 {/* Quantity Controls */}
-                <Box display="flex" alignItems="center">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  border={"1px solid #000"}
+                >
                   <IconButton
                     onClick={() => dispatch(removeFromCart(product.id))}
                     size="small"
@@ -92,6 +101,14 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
                   >
                     +
                   </IconButton>
+                </Box>
+
+                <Box px={2}>
+                  <DeleteOutline
+                    onClick={() => {
+                      dispatch(removeProduct(product.id));
+                    }}
+                  />
                 </Box>
               </Box>
             ))}

@@ -9,6 +9,7 @@ import { useState } from "react";
 import LoginModal from "../modals/LoginModal";
 import Cart from "./cart/Cart";
 import { useAppSelector } from "@/lib/hooks";
+import { colors } from "../constants";
 
 type NavbarItemProps = {
   icon: React.ElementType;
@@ -25,9 +26,9 @@ const NavbarItem = ({ icon: Icon, label, onClick }: NavbarItemProps) => (
     sx={{ cursor: "pointer" }}
   >
     <Icon />
-    <Typography sx={{ display: { xs: "none", sm: "flex" } }} fontSize="12px">
+    {/* <Typography sx={{ display: { xs: "none", sm: "flex" } }} fontSize="12px">
       {label}
-    </Typography>
+    </Typography> */}
   </Box>
 );
 
@@ -57,7 +58,7 @@ const Navbar = () => {
       <Box
         sx={{
           py: 1,
-          bgcolor: "#fff",
+          bgcolor: colors.primary,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",

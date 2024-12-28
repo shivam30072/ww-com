@@ -1,3 +1,4 @@
+import { colors } from "@/app/constants";
 import { Typography } from "@mui/material";
 
 type headingPropType = {
@@ -11,10 +12,11 @@ const Heading = ({ title, textAlign }: headingPropType) => {
       sx={{
         textAlign: textAlign,
         fontWeight: 700,
-        fontSize: { xs: "18px", sm: "28px" },
+        fontSize: { xs: "18px", sm: "38px" },
         py: 2,
         pl: 3,
         my: 2,
+        color: colors.textSecondary,
       }}
     >
       {title}

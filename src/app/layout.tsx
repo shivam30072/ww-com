@@ -30,7 +30,7 @@ export default function RootLayout({
     // testing pull
     <html lang="en">
       <StoreProvider>
-        <body className="slide-in">
+        <body>
           <div className="sticky-navbar">
             <Navbar />
           </div>

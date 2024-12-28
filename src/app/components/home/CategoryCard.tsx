@@ -1,3 +1,4 @@
+import { colors } from "@/app/constants";
 import { categoryTypes } from "@/app/types";
 import { Box, Typography } from "@mui/material";
 
@@ -19,14 +20,15 @@ const CategoryCard = ({ categoryData }: categoryDataProp) => {
       {/* Circle Icon */}
       <Box
         sx={{
-          width: { xs: 90, sm: 130 },
-          height: { xs: 90, sm: 130 },
+          width: { xs: 90, sm: 200 },
+          height: { xs: 90, sm: 200 },
           borderRadius: "50%",
           backgroundColor: "#f5f5f5",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           boxShadow: 2,
+          border: "1px solid #daa520",
         }}
       >
         {/* Placeholder for Icon/Image */}
@@ -35,7 +37,7 @@ const CategoryCard = ({ categoryData }: categoryDataProp) => {
           height={"100%"}
           src={categoryData.image}
           alt={categoryData.name}
-          style={{ borderRadius: "50%", objectFit: "contain" }}
+          style={{ borderRadius: "50%", objectFit: "cover" }}
         />
       </Box>
 
@@ -47,6 +49,7 @@ const CategoryCard = ({ categoryData }: categoryDataProp) => {
           textAlign: "center",
           fontWeight: "bold",
           fontSize: "0.9rem",
+          color: colors.text,
         }}
       >
         {categoryData.name}

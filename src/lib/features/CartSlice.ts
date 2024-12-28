@@ -2,6 +2,7 @@
 
 import { cartStateTypes, productTypes } from "@/app/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { it } from "node:test";
 // import axios from "axios";
 
 const initialState: cartStateTypes = {
@@ -56,6 +57,16 @@ export const CartSlice = createSlice({
         0
       );
     },
+    removeProduct: (state, action: PayloadAction<string>) => {
+      const productIndex = state.products.findIndex(
+        (item) => item.id === action.payload
+      );
+      if (productIndex !== -1) {
+        const product = state.products[productIndex];
+        state.cartSum -= product.finalPrice * product.quantity;
+        state.products.splice(productIndex, 1);
+      }
+    },
   },
   //   extraReducers: (builder) => {
   //     builder.addCase(syncCartWithDb.fulfilled, (state, action) => {
@@ -67,6 +78,6 @@ export const CartSlice = createSlice({
   //   },
 });
 
-export const { addToCart, removeFromCart, calculateTotalSum } =
+export const { addToCart, removeFromCart, calculateTotalSum, removeProduct } =
   CartSlice.actions;
 export default CartSlice.reducer;

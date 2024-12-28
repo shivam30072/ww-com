@@ -20,14 +20,10 @@ const ProductCard = ({ productData }: productDataProp) => {
   const { products } = useAppSelector((state) => state.Cart);
   const dispatch = useAppDispatch();
 
-  const isInCart = products.some((product) => product.id === productData.id);
-
   const router = useRouter();
 
   const handleAddToCart = () => {
-    if (!isInCart) {
-      dispatch(addToCart(productData));
-    }
+    dispatch(addToCart(productData));
   };
   const handleAddToCheckout = () => {
     dispatch(addToCheckout(productData));
@@ -76,7 +72,7 @@ const ProductCard = ({ productData }: productDataProp) => {
           <img
             src={productData.colors[0].images[0]}
             alt={productData.name}
-            style={{ width: "100%", height: 300, objectFit: "contain" }}
+            style={{ width: "100%", height: 300, objectFit: "cover" }}
           />
         </Box>
       </Link>
@@ -102,16 +98,15 @@ const ProductCard = ({ productData }: productDataProp) => {
           <Button
             endIcon={<ShoppingCart />}
             onClick={handleAddToCart}
-            disabled={isInCart} // Disable button if already in cart
             sx={{
               width: "100%",
               textTransform: "none",
-              bgcolor: isInCart ? "#ccc" : "#FF4433",
+              bgcolor: "#FF4433",
               color: "#fff",
-              cursor: isInCart ? "not-allowed" : "pointer",
+              cursor: "pointer",
             }}
           >
-            {isInCart ? "Added to Cart" : "Add to Cart"}
+            {"Add to Cart"}
           </Button>
           <Button
             endIcon={<CurrencyRupee />}

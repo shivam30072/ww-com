@@ -6,18 +6,37 @@ export type productTypes = {
   discount?: number;
   finalPrice: number;
   stock: number;
-  category: string;
+  sku: string;
+  category: categoryTypes;
+  specifications: specificationsTypes;
+  colors: colorTypes[];
   brand: string;
   tags: string[];
+  reviews: reviewTypes[];
   totalReviewsCount: number;
   averageRating: number;
-  images: string[];
 };
 
 export type categoryTypes = {
   name: string;
   description: string;
+  id: string;
   image: string;
+};
+export type specificationsTypes = {
+  material: string;
+  fit: string;
+  care: string;
+};
+export type colorTypes = {
+  images: string[];
+  colorName: string;
+};
+export type reviewTypes = {
+  userId: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
 };
 
 export type cartStateTypes = {
