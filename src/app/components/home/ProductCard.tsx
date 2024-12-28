@@ -74,7 +74,7 @@ const ProductCard = ({ productData }: productDataProp) => {
           }}
         >
           <img
-            src={productData.images[0]}
+            src={productData.colors[0].images[0]}
             alt={productData.name}
             style={{ width: "100%", height: 300, objectFit: "contain" }}
           />
