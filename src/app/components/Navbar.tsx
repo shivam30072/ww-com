@@ -95,7 +95,7 @@ const Navbar = () => {
               border: "none",
               borderRadius: "4px",
               outline: "none",
-              background: "#f0f5ff",
+              background: "#FBCEB1",
             }}
             type="text"
             placeholder="Search for products"
