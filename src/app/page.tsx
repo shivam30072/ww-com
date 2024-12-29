@@ -411,9 +411,9 @@ export default function Home() {
 
         <Heading title="Best for you" textAlign="center" />
         <Box sx={{ p: 2 }}>
-          <Grid2 container spacing={2} rowGap={12}>
+          <Grid2 container spacing={2} rowGap={{ xs: 3, sm: 12 }}>
             {productList.map((product) => (
-              <Grid2 size={{ xs: 12, sm: 6, md: 3 }} key={product.id}>
+              <Grid2 size={{ xs: 6, sm: 6, md: 3 }} key={product.id}>
                 <motion.div
                   initial="hidden"
                   whileInView="visible"

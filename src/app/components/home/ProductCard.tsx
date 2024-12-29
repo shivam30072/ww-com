@@ -36,7 +36,7 @@ const ProductCard = ({ productData }: productDataProp) => {
       sx={{
         width: { xs: "100%", sm: "300px" },
         height: "400px",
-        padding: "24px",
+        padding: { xs: "0px", sm: "24px" },
       }}
     >
       <Box
@@ -45,7 +45,7 @@ const ProductCard = ({ productData }: productDataProp) => {
           // border: `1px solid ${colors.text}`,
           borderRadius: "8px",
           width: "100%",
-          height: "100%",
+          height: { xs: "68%", sm: "100%" },
           background: `url(${productData.colors[0].images[0]})`,
           backgroundSize: "cover",
           boxShadow:
