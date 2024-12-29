@@ -410,7 +410,7 @@ export default function Home() {
         </Box>
 
         <Heading title="Best for you" textAlign="center" />
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: { xs: 0, sm: 2 } }}>
           <Grid2 container spacing={2} rowGap={{ xs: 3, sm: 12 }}>
             {productList.map((product) => (
               <Grid2 size={{ xs: 6, sm: 6, md: 3 }} key={product.id}>

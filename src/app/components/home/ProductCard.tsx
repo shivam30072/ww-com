@@ -64,7 +64,12 @@ const ProductCard = ({ productData }: productDataProp) => {
         gap={1}
         mt={2}
       >
-        <Typography color={colors.text}>{productData.name}</Typography>
+        <Typography
+          fontSize={"clamp(0.875rem, 0.5132rem + 1.7544vw, 1.5rem)"}
+          color={colors.text}
+        >
+          {productData.name}
+        </Typography>
         <Typography color={colors.text}>₹{productData.finalPrice}</Typography>
         <motion.div whileTap={{ scale: 0.95 }} style={{ width: "100%" }}>
           <Button
