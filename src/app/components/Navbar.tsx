@@ -53,73 +53,115 @@ const Navbar = () => {
     }
   };
 
+  const categories = [
+    "Saree",
+    "Suit",
+    "Lehenga",
+    "Gown",
+    "Tops",
+    "Bottoms",
+    "Kurti",
+    "Ethnic",
+    "Casual",
+    "Wedding",
+  ];
+
   return (
     <Container>
       <Box
-        sx={{
-          py: 1,
-          bgcolor: colors.primary,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+        display={"flex"}
+        flexDirection={"column"}
+        gap={2}
+        bgcolor={colors.primary}
       >
-        <Box
-          width={{ xs: "40px", sm: "50px" }}
-          onClick={() => router.push("/")}
-        >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/c/c4/WWE_official_logo.svg"
-            alt="logo"
-            width="100%"
-          />
-        </Box>
-
-        <Box
-          display={{ xs: "none", sm: "flex" }}
-          gap={0.5}
-          mx={2}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <LocationOnOutlined />
-          <Typography fontSize={"12px"}>Update your Location</Typography>
-        </Box>
-
-        <Box position={"relative"} width={{ xs: "100%", sm: "60%" }} mx={0.5}>
-          <Search sx={{ position: "absolute", top: "18%", left: "2%" }} />
-          <input
-            style={{
-              width: "100%",
-              padding: "12px 42px",
-              border: "none",
-              borderRadius: "4px",
-              outline: "none",
-              background: "#FBCEB1",
+        <Box>
+          <Box
+            sx={{
+              py: 1,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
-            type="text"
-            placeholder="Search for products"
-          />
-        </Box>
+          >
+            <Box
+              width={{ xs: "40px", sm: "50px" }}
+              onClick={() => router.push("/")}
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/c/c4/WWE_official_logo.svg"
+                alt="logo"
+                width="100%"
+              />
+            </Box>
 
-        <Box display={"flex"} px={{ xs: 0, sm: 2 }} gap={{ xs: 1, sm: 4 }}>
-          <Badge badgeContent={products.length} color="error">
-            <NavbarItem
-              icon={ShoppingCartOutlinedIcon}
-              label="Cart"
-              onClick={handleCartClick}
-            />
-          </Badge>
-          <NavbarItem
-            icon={AccountCircleOutlinedIcon}
-            label="Login"
-            onClick={handleLoginOpen}
-          />
+            <Box
+              display={{ xs: "none", sm: "flex" }}
+              gap={0.5}
+              mx={2}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <LocationOnOutlined />
+              <Typography fontSize={"12px"}>Update your Location</Typography>
+            </Box>
+
+            <Box
+              position={"relative"}
+              width={{ xs: "100%", sm: "60%" }}
+              mx={0.5}
+            >
+              <Search sx={{ position: "absolute", top: "18%", left: "2%" }} />
+              <input
+                style={{
+                  width: "100%",
+                  padding: "12px 42px",
+                  border: "none",
+                  borderRadius: "4px",
+                  outline: "none",
+                  background: "#FBCEB1",
+                }}
+                type="text"
+                placeholder="Search for products"
+              />
+            </Box>
+
+            <Box display={"flex"} px={{ xs: 0, sm: 2 }} gap={{ xs: 1, sm: 4 }}>
+              <Badge badgeContent={products.length} color="error">
+                <NavbarItem
+                  icon={ShoppingCartOutlinedIcon}
+                  label="Cart"
+                  onClick={handleCartClick}
+                />
+              </Badge>
+              <NavbarItem
+                icon={AccountCircleOutlinedIcon}
+                label="Login"
+                onClick={handleLoginOpen}
+              />
+            </Box>
+          </Box>
+
+          <LoginModal open={isLoginModalOpen} onClose={handleModalClose} />
+          <Cart drawerState={drawerState} setDrawerState={setDrawerState} />
+        </Box>
+        <Box
+          pb={2}
+          display={{ xs: "none", sm: "flex" }}
+          justifyContent={"space-between"}
+        >
+          {categories.map((category) => (
+            <Typography
+              key={category}
+              color={colors.textSecondary}
+              fontSize={"18px"}
+              fontWeight={"bold"}
+              sx={{ cursor: "pointer", "&:hover": { color: colors.text } }}
+            >
+              {category}
+            </Typography>
+          ))}
         </Box>
       </Box>
-
-      <LoginModal open={isLoginModalOpen} onClose={handleModalClose} />
-      <Cart drawerState={drawerState} setDrawerState={setDrawerState} />
     </Container>
   );
 };
