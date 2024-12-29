@@ -384,8 +384,6 @@ const categoryAnimation = {
 };
 
 export default function Home() {
-  // const dispatch = useAppDispatch();
-  // const counterState = useAppSelector((state) => state.counter.value);
   const [isListView, setIsListView] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
 
