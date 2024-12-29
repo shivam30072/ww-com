@@ -385,14 +385,16 @@ const categoryAnimation = {
 
 export default function Home() {
   const [isListView, setIsListView] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
-
-  const handleResize = () => {
-    setIsMobile(window.innerWidth <= 600);
-  };
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+
+    handleResize();
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
