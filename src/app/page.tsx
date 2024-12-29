@@ -324,80 +324,6 @@ const productList: productTypes[] = [
     reviews: [],
     id: "675d4668126e616e7c02f6e3",
   },
-  {
-    discount: 20,
-    stock: 190,
-    tags: ["saree", "elegant", "modern", "yellow"],
-    totalReviewsCount: 0,
-    averageRating: 0,
-    name: "Elegant Yellow Saree",
-    sku: "SAREE131",
-    description:
-      "An elegant yellow saree with a contemporary touch, perfect for modern yet traditional looks.",
-    price: 114.99,
-    finalPrice: 91.99,
-    category: {
-      name: "Saree",
-      description: "A traditional Indian garment, often worn by women.",
-      id: "672f292496da1256705e0a76",
-      image: "",
-    },
-    brand: "TraditionalElegance",
-    specifications: {
-      material: "Silk",
-      fit: "Regular",
-      care: "Dry Clean Only",
-    },
-    colors: [
-      {
-        images: [
-          "https://cdn.rajwadi.com/image/cache/data/yellow-color-contemporary-saree-38561-800x1100.jpg",
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK1_WKAkR2z13Mw6AMY2fcbtF9ICSC55vjubl-cVgYPnS47KUlkRA927n5s0PWLNVF4lY&usqp=CAU",
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcpa6cJZbpWhstS9PbAhgjE8VY3aPN-EaWrnTi4RnANjBU3Syz48CPJtumSK2u5-mzU4k&usqp=CAU",
-        ],
-        colorName: "Yellow",
-      },
-    ],
-    reviews: [],
-    id: "675d4668126e616e7c02f6e5",
-  },
-  {
-    discount: 15,
-    stock: 250,
-    tags: ["saree", "elegant", "blue", "silk"],
-    totalReviewsCount: 0,
-    averageRating: 0,
-    name: "Blue Elegance Saree",
-    sku: "SAREE132",
-    description:
-      "A beautifully crafted blue saree made from silk, suitable for elegant gatherings.",
-    price: 119.99,
-    finalPrice: 101.99,
-    category: {
-      name: "Saree",
-      description: "A traditional Indian garment, often worn by women.",
-      id: "672f292496da1256705e0a76",
-      image: "",
-    },
-    brand: "TraditionalElegance",
-    specifications: {
-      material: "Silk",
-      fit: "Regular",
-      care: "Dry Clean Only",
-    },
-    colors: [
-      {
-        images: [
-          "https://i.pinimg.com/736x/c0/c8/e0/c0c8e0b07b92cd36258029c4fbf9677d.jpg",
-          "https://img.freepik.com/premium-photo/aiyuj-wearing-blue-saree-photo-shoot_961875-289365.jpg",
-          "https://i.pinimg.com/736x/ea/db/5d/eadb5d15d975b0c5933359534465cb19.jpg",
-        ],
-        colorName: "Blue",
-      },
-    ],
-    reviews: [],
-    id: "675d4668126e616e7c02f6e7",
-  },
 ];
 
 const categoryList: categoryTypes[] = [
@@ -485,7 +411,7 @@ export default function Home() {
 
         <Heading title="Best for you" textAlign="center" />
         <Box sx={{ p: 2 }}>
-          <Grid2 container spacing={2}>
+          <Grid2 container spacing={2} rowGap={12}>
             {productList.map((product) => (
               <Grid2 size={{ xs: 12, sm: 6, md: 3 }} key={product.id}>
                 <motion.div
@@ -501,6 +427,14 @@ export default function Home() {
           </Grid2>
         </Box>
       </Container>
+      <Box mt={16}>
+        <img
+          src="https://www.koskii.com/cdn/shop/files/Website-Banner-B2G1-free_1944x.jpg?v=1731396161"
+          alt="banner"
+          width={"100%"}
+          height={"100%"}
+        />
+      </Box>
     </Box>
   );
 }

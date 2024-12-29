@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Close, DeleteOutline } from "@mui/icons-material";
 import { Box, Button, Drawer, IconButton, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { colors } from "@/app/constants";
 
 type cartProps = {
   drawerState: boolean;
@@ -58,7 +59,7 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
                 justifyContent="space-between"
                 mb={2}
                 p={1}
-                border="1px solid #ddd"
+                border={`1px solid ${colors.textSecondary}`}
                 borderRadius="8px"
               >
                 {/* Product Image */}
@@ -105,6 +106,7 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
 
                 <Box px={2}>
                   <DeleteOutline
+                    sx={{ color: colors.text }}
                     onClick={() => {
                       dispatch(removeProduct(product.id));
                     }}
