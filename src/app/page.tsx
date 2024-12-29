@@ -1,5 +1,11 @@
 "use client";
-import { Box, Container, Grid2 } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid2,
+  IconButton,
+  useMediaQuery,
+} from "@mui/material";
 import ProductCard from "./components/home/ProductCard";
 import { categoryTypes, productTypes } from "./types";
 import CategoryCard from "./components/home/CategoryCard";
@@ -7,6 +13,9 @@ import Heading from "./components/utils/Heading";
 import ImageSlider from "./components/home/ImageSlider";
 import { motion } from "framer-motion";
 
+import ViewListIcon from "@mui/icons-material/ViewList";
+import ViewModuleIcon from "@mui/icons-material/ViewModule";
+import { useEffect, useState } from "react";
 const productList: productTypes[] = [
   {
     discount: 15,
@@ -377,6 +386,22 @@ const categoryAnimation = {
 export default function Home() {
   // const dispatch = useAppDispatch();
   // const counterState = useAppSelector((state) => state.counter.value);
+  const [isListView, setIsListView] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 600);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const toggleView = () => {
+    setIsListView((prev) => !prev);
+  };
 
   return (
     <Box mt={8.5}>
@@ -384,7 +409,6 @@ export default function Home() {
 
       <Container>
         <Heading title="Category" textAlign="center" />
-
         <Box
           sx={{
             p: 2,
@@ -409,11 +433,28 @@ export default function Home() {
           ))}
         </Box>
 
-        <Heading title="Best for you" textAlign="center" />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 2,
+          }}
+        >
+          <Heading title="Best for you" textAlign="center" />
+          {isMobile && (
+            <IconButton onClick={toggleView} sx={{ ml: 2 }}>
+              {isListView ? <ViewModuleIcon /> : <ViewListIcon />}
+            </IconButton>
+          )}
+        </Box>
         <Box sx={{ p: { xs: 0, sm: 2 } }}>
           <Grid2 container spacing={2} rowGap={{ xs: 3, sm: 12 }}>
             {productList.map((product) => (
-              <Grid2 size={{ xs: 6, sm: 6, md: 3 }} key={product.id}>
+              <Grid2
+                size={{ xs: isListView ? 12 : 6, sm: 6, md: 3 }}
+                key={product.id}
+              >
                 <motion.div
                   initial="hidden"
                   whileInView="visible"
