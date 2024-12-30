@@ -32,9 +32,7 @@ export default function ProductPage() {
   const [price, setPrice] = useState(0)
   const [description, setDescription] = useState('')
   const [specifications, setSpecifications] = useState({})
-  const [currentImage, setCurrentImage] = useState<string>(
-    ''
-  );
+  const [currentImage, setCurrentImage] = useState<string>('');
   const [reviews, setReviews] = useState('');
   const [newReview, setNewReview] = useState({
     userName: "",
@@ -46,27 +44,10 @@ export default function ProductPage() {
   const pathname = usePathname();
   const productId = pathname.split("/")[2];
 
-
-  const fetchToken = async () => {
-    const loginPayload = {
-      email: "john@example.com",
-      password: "password123",
-    };
-    try {
-      const response = await axios.post(`${BASE_URL}/v1/auth/login`, loginPayload);
-      return response.data.tokens.access.token; // Assumes the token is in `data.token`
-    } catch (error) {
-      console.error("Error during login:", error);
-      return null;
-    }
-  };
-
-  const fetchData = async (token: string) => {
+  const fetchData = async () => {
     try {
       const [productsResponse] = await Promise.all([
-        axios.get(`${BASE_URL}/v1/products/${productId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
+        axios.get(`${BASE_URL}/v1/products/${productId}`),
       ]);
       setProduct(productsResponse.data);
 
@@ -80,9 +61,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     const initializeData = async () => {
-      const token = await fetchToken();
-      if (token) {
-        const data = await fetchData(token);
+        const data = await fetchData();
         setSelectedColor(data.colors[0]);
         setCurrentImage(data.colors[0].images[0])
         setAllColor(data.colors);
@@ -90,12 +69,7 @@ export default function ProductPage() {
         setPrice(data.price)
         setDescription(data.description)
         setSpecifications(data.specifications)
-      } else {
-        console.error("Failed to retrieve JWT token.");
-        setLoading(false);
-      }
-    };
-
+    }
     initializeData();
   }, []);
 

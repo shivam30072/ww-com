@@ -39,32 +39,14 @@ export default function Home() {
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchToken = async () => {
-    const loginPayload = {
-      email: "john@example.com",
-      password: "password123",
-    };
-    try {
-      const response = await axios.post(`${BASE_URL}/v1/auth/login`, loginPayload);
-      return response.data.tokens.access.token; // Assumes the token is in `data.token`
-    } catch (error) {
-      console.error("Error during login:", error);
-      return null;
-    }
-  };
-
-  const fetchData = async (token: string) => {
+  const fetchData = async () => {
     try {
       const [productsResponse, categoriesResponse] = await Promise.all([
-        axios.get(`${BASE_URL}/v1/products?limit=30&page=1`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        axios.get(`${BASE_URL}/v1/category?limit=10&page=1`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
+        axios.get(`${BASE_URL}/v1/products?limit=30&page=1`),
+        axios.get(`${BASE_URL}/v1/category?limit=10&page=1`),
       ]);
-      setProductList(productsResponse.data.results); // Assuming `data.data` contains the products
-      setCategoryList(categoriesResponse.data.results); // Assuming `data.data` contains the categories
+      setProductList(productsResponse.data.results)
+      setCategoryList(categoriesResponse.data.results)
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -74,13 +56,7 @@ export default function Home() {
 
   useEffect(() => {
     const initializeData = async () => {
-      const token = await fetchToken();
-      if (token) {
-        fetchData(token);
-      } else {
-        console.error("Failed to retrieve JWT token.");
-        setLoading(false);
-      }
+        fetchData()
     };
 
     initializeData();
