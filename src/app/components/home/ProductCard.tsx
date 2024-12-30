@@ -65,8 +65,9 @@ const ProductCard = ({ productData }: productDataProp) => {
         mt={2}
       >
         <Typography
-          fontSize={"clamp(0.875rem, 0.5132rem + 1.7544vw, 1.5rem)"}
-          color={colors.text}
+          fontSize={"clamp(0.875rem, 0.6579rem + 1.0526vw, 1.25rem)"}
+          color={colors.textSecondary}
+          textAlign={"center"}
         >
           {productData.name}
         </Typography>

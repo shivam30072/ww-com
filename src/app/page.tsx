@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 "use client";
-import {
-  Box,
-  Container,
-  Grid2,
-  IconButton
-} from "@mui/material";
+import { Box, Container, Grid2, IconButton } from "@mui/material";
 import ProductCard from "./components/home/ProductCard";
 // import { categoryTypes, productTypes } from "./types";
 import CategoryCard from "./components/home/CategoryCard";
@@ -19,18 +14,17 @@ import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
-const BASE_URL = process.env.BACKEND_BASE_URL
+const BASE_URL = process.env.BACKEND_BASE_URL;
 
 const productAnimation = {
   hidden: { opacity: 0, y: 50 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-// const categoryAnimation = {
-//   hidden: { opacity: 0, x: -50 },
-//   visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
-// };
+const categoryAnimation = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+};
 
 export default function Home() {
   const [isListView, setIsListView] = useState(false);
@@ -45,8 +39,8 @@ export default function Home() {
         axios.get(`${BASE_URL}/v1/products?limit=30&page=1`),
         axios.get(`${BASE_URL}/v1/category?limit=10&page=1`),
       ]);
-      setProductList(productsResponse.data.results)
-      setCategoryList(categoriesResponse.data.results)
+      setProductList(productsResponse.data.results);
+      setCategoryList(categoriesResponse.data.results);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -56,7 +50,7 @@ export default function Home() {
 
   useEffect(() => {
     const initializeData = async () => {
-        fetchData()
+      fetchData();
     };
 
     initializeData();
@@ -93,8 +87,8 @@ export default function Home() {
             p: 2,
             display: "flex",
             gap: 4,
-            overflowX: { xs: "auto", sm: "hidden" },
-            justifyContent: { xs: "flex-start", sm: "center" },
+            overflowX: "auto",
+            justifyContent: "flex-start",
             alignItems: "center",
           }}
         >
@@ -104,7 +98,7 @@ export default function Home() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                variants={productAnimation}
+                variants={categoryAnimation}
               >
                 <CategoryCard categoryData={category} />
               </motion.div>
@@ -128,7 +122,7 @@ export default function Home() {
           )}
         </Box>
         <Box sx={{ p: { xs: 0, sm: 2 } }}>
-          <Grid2 container spacing={2} rowGap={{ xs: 3, sm: 12 }}>
+          <Grid2 container spacing={2} rowGap={{ xs: 3, sm: 16 }}>
             {productList?.map((product) => (
               <Grid2
                 size={{ xs: isListView ? 12 : 6, sm: 6, md: 3 }}
