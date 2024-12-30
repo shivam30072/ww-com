@@ -1,4 +1,4 @@
-export const BASE_URL = "https://siya-backend-1.onrender.com/v1";
+// export const BASE_URL = "https://siya-backend-1.onrender.com/v1";
 
 export const colors = {
   primary: "#faddba",

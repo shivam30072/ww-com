@@ -21,7 +21,7 @@ import {
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-const BASE_URL = "https://siya-backend-1.onrender.com";
+const BASE_URL = process.env.BACKEND_BASE_URL
 
 export default function ProductPage() {
   const [product, setProduct] = useState({});
@@ -73,12 +73,6 @@ export default function ProductPage() {
     initializeData();
   }, []);
 
-
-
-
-
-
-  console.log("productId:: ", productId);
   function format(dateString: string): string {
     const date = new Date(dateString);
     const options: { [key: string]: string } = {
