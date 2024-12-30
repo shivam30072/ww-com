@@ -21,7 +21,7 @@ export type categoryTypes = {
   name: string;
   description: string;
   id: string;
-  image: string;
+  categoryImages: string[];
 };
 export type specificationsTypes = {
   material: string;
