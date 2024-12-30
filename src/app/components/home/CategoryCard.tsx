@@ -35,7 +35,7 @@ const CategoryCard = ({ categoryData }: categoryDataProp) => {
         <img
           width={"100%"}
           height={"100%"}
-          src={categoryData?.categoryImages[0]}
+          src={categoryData.image}
           alt={categoryData.name}
           style={{ borderRadius: "50%", objectFit: "cover" }}
         />
