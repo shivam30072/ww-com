@@ -3,14 +3,21 @@
 import { LocationOnOutlined, Search } from "@mui/icons-material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { Badge, Box, Container, Typography, CircularProgress } from "@mui/material";
+import {
+  Badge,
+  Box,
+  Container,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import LoginModal from "../modals/LoginModal";
 import Cart from "./cart/Cart";
 import { useAppSelector } from "@/lib/hooks";
 import { colors } from "../constants";
+import { categoryTypes } from "../types";
 
 type NavbarItemProps = {
   icon: React.ElementType;
@@ -45,8 +52,9 @@ const Navbar = () => {
   const [query, setQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [categories, setCategories] = useState<categoryTypes[]>([]);
   const [isSearchDropdownVisible, setSearchDropdownVisible] =
-  useState<boolean>(false);
+    useState<boolean>(false);
 
   const { products } = useAppSelector((state) => state.Cart);
 
@@ -106,22 +114,33 @@ const Navbar = () => {
     );
   };
 
-  const categories = [
-    "Saree",
-    "Suit",
-    "Lehenga",
-    "Gown",
-    "Tops",
-    "Bottoms",
-    "Kurti",
-    "Ethnic",
-    "Casual",
-    "Wedding",
-  ];
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.BACKEND_BASE_URL}/v1/category?limit=10&page=1`
+      );
+      setCategories(response?.data?.results);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    const initializeData = async () => {
+      fetchCategories();
+    };
+
+    initializeData();
+  }, []);
 
   return (
     <Container>
-      <Box display={"flex"} flexDirection={"column"} gap={2} bgcolor={colors.primary}>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        gap={2}
+        bgcolor={colors.primary}
+      >
         <Box>
           <Box
             sx={{
@@ -153,7 +172,11 @@ const Navbar = () => {
               <Typography fontSize={"12px"}>Update your Location</Typography>
             </Box>
 
-            <Box position={"relative"} width={{ xs: "100%", sm: "60%" }} mx={0.5}>
+            <Box
+              position={"relative"}
+              width={{ xs: "100%", sm: "60%" }}
+              mx={0.5}
+            >
               <Search sx={{ position: "absolute", top: "18%", left: "2%" }} />
               <input
                 style={{
@@ -172,7 +195,12 @@ const Navbar = () => {
               {isLoading && (
                 <CircularProgress
                   size={20}
-                  sx={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    right: "10px",
+                    transform: "translateY(-50%)",
+                  }}
                 />
               )}
               {isSearchDropdownVisible && searchResults.length > 0 && (
@@ -232,15 +260,16 @@ const Navbar = () => {
           display={{ xs: "none", sm: "flex" }}
           justifyContent={"space-between"}
         >
-          {categories.map((category) => (
+          {categories.map((category: categoryTypes) => (
             <Typography
-              key={category}
+              key={category.id}
+              onClick={() => router.push(`/category/${category.id}`)}
               color={colors.textSecondary}
               fontSize={"18px"}
               fontWeight={"bold"}
               sx={{ cursor: "pointer", "&:hover": { color: colors.text } }}
             >
-              {category}
+              {category.name}
             </Typography>
           ))}
         </Box>

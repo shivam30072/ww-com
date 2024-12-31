@@ -8,6 +8,7 @@ import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import Heading from "@/app/components/utils/Heading";
 import { motion } from "framer-motion";
 import { productTypes } from "@/app/types";
+import axios from "axios";
 
 const CategoryPage = () => {
   const pathname = usePathname();
@@ -38,6 +39,19 @@ const CategoryPage = () => {
         setProducts(categoryData);
         if (categoryData && categoryData.length > 0)
           setCategoryName(categoryData[0].category.name);
+      } else {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get(
+              `${process.env.BACKEND_BASE_URL}/v1/products?category=${id}`
+            );
+            setProducts(response.data.results);
+            setCategoryName(response.data.results[0].category.name);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+        // fetchData();
       }
     }
   }, [id]);
