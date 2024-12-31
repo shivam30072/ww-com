@@ -21,28 +21,46 @@ import {
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-const BASE_URL = process.env.BACKEND_BASE_URL
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { body } from "framer-motion/client";
+const BASE_URL = process.env.BACKEND_BASE_URL;
+const USER_ID = process.env.USER_ID;
 
 export default function ProductPage() {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedColor, setSelectedColor] = useState("");
   const [allColor, setAllColor] = useState([]);
-  const [finalPrice, setFinalPrice] = useState(0)
-  const [price, setPrice] = useState(0)
-  const [description, setDescription] = useState('')
-  const [specifications, setSpecifications] = useState({})
-  const [currentImage, setCurrentImage] = useState<string>('');
-  const [reviews, setReviews] = useState('');
+  const [finalPrice, setFinalPrice] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState("");
+  const [specifications, setSpecifications] = useState({});
+  const [currentImage, setCurrentImage] = useState<string>("");
+  const [reviews, setReviews] = useState("");
+  const [token, setToken] = useState("");
   const [newReview, setNewReview] = useState({
     userName: "",
     rating: 0,
     comment: "",
   });
 
-
   const pathname = usePathname();
   const productId = pathname.split("/")[2];
+
+  const fetchToken = async () => {
+    try {
+      const loginPayload = {
+        email: "john@example.com",
+        password: "password123",
+      };
+      const response = await axios.post(`${BASE_URL}/v1/auth/login`, loginPayload);
+      return response.data.tokens.access.token;
+    } catch (error) {
+      console.error("Error fetching new token:", error.message);
+      throw error;
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -51,7 +69,7 @@ export default function ProductPage() {
       ]);
       setProduct(productsResponse.data);
 
-      return productsResponse.data
+      return productsResponse.data;
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -59,17 +77,66 @@ export default function ProductPage() {
     }
   };
 
+  const addReview = async (reviewData) => {
+    try {
+      const token = await getValidToken();
+      const response = await axios.post(
+        `${BASE_URL}/v1/reviews/${productId}`,
+        reviewData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Review submitted successfully:", response.data);
+    } catch (error) {
+      console.error(
+        "Error submitting review:",
+        error.response?.status,
+        error.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getValidToken = async () => {
+    if (!token || isTokenExpired(token)) {
+      const refreshedToken = await fetchToken();
+      setToken(refreshedToken);
+      return refreshedToken;
+    }
+    return token;
+  };
+
+  const isTokenExpired = (token) => {
+    if (!token) return true;
+
+    try {
+      // const { exp } = jwt_decode(token);
+      // if (!exp) return true;
+
+      // const currentTime = Math.floor(Date.now() / 1000);
+      return true
+    } catch (error) {
+      console.error("Error decoding token:", error.message);
+      return true;
+    }
+  };
+
   useEffect(() => {
     const initializeData = async () => {
-        const data = await fetchData();
-        setSelectedColor(data.colors[0]);
-        setCurrentImage(data.colors[0].images[0])
-        setAllColor(data.colors);
-        setFinalPrice(data.finalPrice);
-        setPrice(data.price)
-        setDescription(data.description)
-        setSpecifications(data.specifications)
-    }
+      const data = await fetchData();
+      setSelectedColor(data.colors[0]);
+      setCurrentImage(data.colors[0].images[0]);
+      setAllColor(data.colors);
+      setFinalPrice(data.finalPrice);
+      setPrice(data.price);
+      setDescription(data.description);
+      setSpecifications(data.specifications);
+    };
     initializeData();
   }, []);
 
@@ -105,6 +172,16 @@ export default function ProductPage() {
       ]);
       setNewReview({ userName: "", rating: 0, comment: "" });
     }
+    const newComment = newReview.comment;
+    const newrating = newReview.rating;
+
+    const newReviewAdd = { 
+      comment: newComment,
+      rating: newrating,
+      userId: USER_ID
+    };
+
+    addReview(newReviewAdd)
   };
 
   if (loading) {
@@ -312,15 +389,15 @@ export default function ProductPage() {
                   {product?.averageRating}
                 </Typography>
                 <Box display="flex" gap={2} flexDirection="column">
-                  {reviews &&
-                    reviews?.map((review, index) => (
+                  {
+                    product.reviews?.map((review, index) => (
                       <Card key={index} sx={{ display: "flex", p: 2, gap: 2 }}>
                         <Avatar sx={{ width: 56, height: 56 }}>
-                          {review?.userName.charAt(0)}
+                          {review?.userId?.name.charAt(0)}
                         </Avatar>
                         <CardContent>
                           <Typography variant="subtitle1" fontWeight="bold">
-                            {review?.userName}
+                            {review?.userId?.name}
                           </Typography>
                           <Typography
                             variant="caption"
