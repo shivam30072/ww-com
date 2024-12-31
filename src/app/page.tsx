@@ -100,7 +100,12 @@ export default function Home() {
                 viewport={{ once: true, amount: 0.3 }}
                 variants={categoryAnimation}
               >
-                <CategoryCard categoryData={category} />
+                <CategoryCard
+                  categoryData={category}
+                  productList={productList.filter(
+                    (product) => product.category?.id === category?.id
+                  )}
+                />
               </motion.div>
             </Box>
           ))}
