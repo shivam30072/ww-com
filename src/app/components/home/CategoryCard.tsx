@@ -1,12 +1,26 @@
 import { colors } from "@/app/constants";
-import { categoryTypes } from "@/app/types";
+import { categoryTypes, productTypes } from "@/app/types";
 import { Box, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 type categoryDataProp = {
   categoryData: categoryTypes;
 };
 
-const CategoryCard = ({ categoryData }: categoryDataProp) => {
+type productDataProp = {
+  productList: productTypes[];
+
+};
+
+type CategoryCardProps = categoryDataProp & productDataProp;
+
+const CategoryCard = ({ categoryData, productList }: CategoryCardProps) => {
+  const router = useRouter();
+  const handleCategoryClick = () => {
+    localStorage.setItem(categoryData.id, JSON.stringify(productList))
+    router.push(`/category/${categoryData.id}`);
+  };
+
   return (
     <Box
       sx={{
@@ -16,6 +30,7 @@ const CategoryCard = ({ categoryData }: categoryDataProp) => {
         justifyContent: "center",
         cursor: "pointer",
       }}
+      onClick={handleCategoryClick}
     >
       {/* Circle Icon */}
       <Box
