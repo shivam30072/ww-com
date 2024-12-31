@@ -103,11 +103,13 @@ export default function ProductPage() {
   };
 
   const getValidToken = async () => {
-    if (!token || isTokenExpired(token)) {
-      const refreshedToken = await fetchToken();
-      setToken(refreshedToken);
-      return refreshedToken;
-    }
+    // if (!token || isTokenExpired(token)) {
+    //   const refreshedToken = await fetchToken();
+    //   setToken(refreshedToken);
+    //   return refreshedToken;
+    // }
+    // return token;
+    const token = localStorage.getItem("jwttoken")
     return token;
   };
 
@@ -178,8 +180,8 @@ export default function ProductPage() {
     const newReviewAdd = { 
       comment: newComment,
       rating: newrating,
-      userId: USER_ID
-    };
+      userId: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") || '{}').id : USER_ID
+    }
 
     addReview(newReviewAdd)
   };
