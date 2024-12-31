@@ -385,7 +385,7 @@ export default function ProductPage() {
             <Grid item xs={12}>
               <Box mt={5}>
                 <Typography variant="h5" fontWeight="bold" mb={2}>
-                  Reviews ({reviews.length}) - Average Rating:{" "}
+                  Reviews ({product?.reviews?.length}) - Average Rating:{" "}
                   {product?.averageRating}
                 </Typography>
                 <Box display="flex" gap={2} flexDirection="column">
