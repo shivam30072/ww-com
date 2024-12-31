@@ -7,6 +7,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import Heading from "@/app/components/utils/Heading";
 import { motion } from "framer-motion";
+import { productTypes } from "@/app/types";
 
 const CategoryPage = () => {
   const pathname = usePathname();
@@ -35,8 +36,8 @@ const CategoryPage = () => {
       if (storedProducts) {
         const categoryData = JSON.parse(storedProducts);
         setProducts(categoryData);
-        if(categoryData && categoryData.length>0)
-        setCategoryName(categoryData[0].category.name);
+        if (categoryData && categoryData.length > 0)
+          setCategoryName(categoryData[0].category.name);
       }
     }
   }, [id]);
@@ -53,7 +54,11 @@ const CategoryPage = () => {
   return (
     <Box mt={8.5}>
       <Container>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Heading title={`${categoryName} Products`} textAlign="left" />
           {isMobile && (
             <IconButton onClick={toggleView}>
@@ -63,8 +68,11 @@ const CategoryPage = () => {
         </Stack>
         <Box sx={{ p: { xs: 0, sm: 2 } }}>
           <Grid2 container spacing={2} rowGap={{ xs: 3, sm: 16 }}>
-            {products?.map((product) => (
-              <Grid2 size={{ xs: isListView ? 12 : 6, sm: 6, md: 3 }} key={product?.id}>
+            {products?.map((product: productTypes) => (
+              <Grid2
+                size={{ xs: isListView ? 12 : 6, sm: 6, md: 3 }}
+                key={product?.id}
+              >
                 <motion.div
                   initial="hidden"
                   whileInView="visible"
