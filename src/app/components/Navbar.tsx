@@ -3,9 +3,10 @@
 import { LocationOnOutlined, Search } from "@mui/icons-material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { Badge, Box, Container, Drawer, Typography } from "@mui/material";
+import { Badge, Box, Container, Typography, CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import axios from "axios";
 import LoginModal from "../modals/LoginModal";
 import Cart from "./cart/Cart";
 import { useAppSelector } from "@/lib/hooks";
@@ -17,6 +18,12 @@ type NavbarItemProps = {
   onClick?: () => void;
 };
 
+type Product = {
+  _id: string;
+  name: string;
+  matchingScore: number;
+};
+
 const NavbarItem = ({ icon: Icon, label, onClick }: NavbarItemProps) => (
   <Box
     display="flex"
@@ -26,9 +33,6 @@ const NavbarItem = ({ icon: Icon, label, onClick }: NavbarItemProps) => (
     sx={{ cursor: "pointer" }}
   >
     <Icon />
-    {/* <Typography sx={{ display: { xs: "none", sm: "flex" } }} fontSize="12px">
-      {label}
-    </Typography> */}
   </Box>
 );
 
@@ -38,19 +42,68 @@ const Navbar = () => {
   const router = useRouter();
 
   const [drawerState, setDrawerState] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSearchDropdownVisible, setSearchDropdownVisible] =
+  useState<boolean>(false);
+
+  const { products } = useAppSelector((state) => state.Cart);
 
   const handleLoginOpen = () => setLoginModalOpen(true);
   const handleModalClose = () => setLoginModalOpen(false);
 
-  const { products } = useAppSelector((state) => state.Cart);
-
   const handleCartClick = () => {
     if (isLoggedIn) {
-      // router.push("/cart");
       setDrawerState(true);
     } else {
       setLoginModalOpen(true);
     }
+  };
+
+  const handleSearch = async (input: string) => {
+    setQuery(input);
+    if (input.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.BACKEND_BASE_URL}/v1/products/search/product?query=${input}`
+      );
+      setSearchResults(response.data);
+      setSearchDropdownVisible(true);
+    } catch (error) {
+      console.error("Error fetching search results", error);
+      setSearchDropdownVisible(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // const handleProductClick = (productId: string) => {
+  //   router.push(`/product/${productId}`);
+  // };
+
+  const handleProductClick = (productId: string) => {
+    setDrawerState(false);
+    setSearchDropdownVisible(false);
+    router.push(`/product/${productId}`);
+  };
+
+  const highlightMatch = (text: string, keyword: string) => {
+    const regex = new RegExp(`(${keyword})`, "gi");
+    return text.split(regex).map((part, index) =>
+      regex.test(part) ? (
+        <span key={index} style={{ fontWeight: "bold", color: colors.text }}>
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
   };
 
   const categories = [
@@ -68,12 +121,7 @@ const Navbar = () => {
 
   return (
     <Container>
-      <Box
-        display={"flex"}
-        flexDirection={"column"}
-        gap={2}
-        bgcolor={colors.primary}
-      >
+      <Box display={"flex"} flexDirection={"column"} gap={2} bgcolor={colors.primary}>
         <Box>
           <Box
             sx={{
@@ -105,11 +153,7 @@ const Navbar = () => {
               <Typography fontSize={"12px"}>Update your Location</Typography>
             </Box>
 
-            <Box
-              position={"relative"}
-              width={{ xs: "100%", sm: "60%" }}
-              mx={0.5}
-            >
+            <Box position={"relative"} width={{ xs: "100%", sm: "60%" }} mx={0.5}>
               <Search sx={{ position: "absolute", top: "18%", left: "2%" }} />
               <input
                 style={{
@@ -121,8 +165,47 @@ const Navbar = () => {
                   background: "#FBCEB1",
                 }}
                 type="text"
+                value={query}
+                onChange={(e) => handleSearch(e.target.value)}
                 placeholder="Search for products"
               />
+              {isLoading && (
+                <CircularProgress
+                  size={20}
+                  sx={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)" }}
+                />
+              )}
+              {isSearchDropdownVisible && searchResults.length > 0 && (
+                <Box
+                  position="absolute"
+                  top="100%"
+                  left="0"
+                  width="100%"
+                  bgcolor="#fff"
+                  boxShadow="0px 4px 10px rgba(0, 0, 0, 0.1)"
+                  zIndex={10}
+                  borderRadius="4px"
+                  mt={1}
+                  p={1}
+                >
+                  {searchResults.map((product) => (
+                    <Box
+                      key={product._id}
+                      px={2}
+                      py={1}
+                      onClick={() => handleProductClick(product._id)}
+                      sx={{
+                        cursor: "pointer",
+                        "&:hover": { backgroundColor: colors.secondary },
+                      }}
+                    >
+                      <Typography>
+                        {highlightMatch(product.name, query)}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+              )}
             </Box>
 
             <Box display={"flex"} px={{ xs: 0, sm: 2 }} gap={{ xs: 1, sm: 4 }}>
