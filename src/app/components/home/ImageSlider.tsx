@@ -3,46 +3,54 @@ import React, { useEffect, useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import styles from "./Home.module.css";
-import axios from "axios"
-const BASE_URL = process.env.BACKEND_BASE_URL
+import axios from "axios";
+const BASE_URL = process.env.BACKEND_BASE_URL;
+interface SliderImage {
+  url: string; // URL of the image
+  type: string; // Type of the image (e.g., "homepage")
+  id: string; // Unique identifier for the image
+}
 
-// const images = [
-//   {
-//     url: "https://cdn.shopify.com/s/files/1/0597/5592/1540/files/6-different-styles_1024x1024.jpg?v=1687584397",
-//     alt: "woman",
-//   },
-//   {
-//     url: "https://imgmedia.lbb.in/media/2023/08/64e74bb7657e506338faa8c9_1692879799068.jpg",
-//     alt: "another woman",
-//   },
-//   {
-//     url: "https://www.biba.in/on/demandware.static/-/Library-Sites-BibaSharedLibrary/default/dw217f4de8/images/blog-image/Amazing-Ethnic-Wear-for-Women-You-can-Gift!.jpg",
-//     alt: "another woman",
-//   },
-// ];
+// Define an interface for the expected response structure
+interface SliderImageResponse {
+  results: SliderImage[]; // Array of slider images
+  page: number; // Current page number
+  limit: number; // Limit of results per page
+  totalPages: number; // Total number of pages available
+  totalResults: number; // Total number of results available
+}
 
 export default function ImageSlider() {
   const [current, setCurrent] = useState(0);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<SliderImage[]>([]);
 
-  const fetchSliderImages = async() => {
+  const fetchSliderImages = async () => {
     let sliderImages = localStorage.getItem("SliderImages");
 
-    if(sliderImages){
-      const images =  JSON.parse(sliderImages);
+    if (sliderImages) {
+      const images = JSON.parse(sliderImages);
       setImages(images);
       return images;
     }
-    sliderImages = await axios.get(`${BASE_URL}/v1/slider`)
-    localStorage.setItem("SliderImages", JSON.stringify(sliderImages.data.results))
-    setImages(sliderImages.data.results)
+    try {
+      const response = await axios.get<SliderImageResponse>(
+        `${BASE_URL}/v1/slider`
+      );
+      const results = response.data.results || [];
 
-    return sliderImages
-  }
+      localStorage.setItem("SliderImages", JSON.stringify(results));
+      setImages(results);
+
+      return results;
+    } catch (error) {
+      console.error("Error fetching slider images:", error);
+      return []; // Return an empty array in case of error
+    }
+  };
 
   useEffect(() => {
     fetchSliderImages();
-  }, [])
+  }, []);
 
   const length = images.length;
 
@@ -62,16 +70,16 @@ export default function ImageSlider() {
     return () => clearInterval(slideInterval);
   }, [length]);
 
-  if(!images){
-    return <div> No data found </div>
+  if (!images) {
+    return <div> No data found </div>;
   }
 
   return (
     <div>
       <div className={styles.sliderContainer}>
-        {images.map((image, index) => (
+        {images.map((image: SliderImage, index) => (
           <div
-            key={index}
+            key={image.id}
             className={styles.slide}
             style={{ opacity: index === current ? 1 : 0 }}
           >
