@@ -35,6 +35,7 @@ const CategoryPage = () => {
       if (storedProducts) {
         const categoryData = JSON.parse(storedProducts);
         setProducts(categoryData);
+        if(categoryData && categoryData.length>0)
         setCategoryName(categoryData[0].category.name);
       }
     }
