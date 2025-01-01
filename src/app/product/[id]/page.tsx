@@ -25,12 +25,13 @@ import axios from "axios";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { body } from "framer-motion/client";
-import Link from "next/link";
+import ProductCard from "@/app/components/home/ProductCard";
 const BASE_URL = process.env.BACKEND_BASE_URL;
 const USER_ID = process.env.USER_ID;
 
 export default function ProductPage() {
   const [product, setProduct] = useState({});
+  const [relatedProduct, setRelatedProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedColor, setSelectedColor] = useState("");
   const [allColor, setAllColor] = useState([]);
@@ -39,8 +40,9 @@ export default function ProductPage() {
   const [description, setDescription] = useState("");
   const [specifications, setSpecifications] = useState({});
   const [currentImage, setCurrentImage] = useState<string>("");
-  const [reviews, setReviews] = useState("");
-  const [token, setToken] = useState("");
+  // const [reviews, setReviews] = useState("");
+  // const [token, setToken] = useState("");
+  const [categoryId, setCategoryId] = useState("")
   const [newReview, setNewReview] = useState({
     userName: "",
     rating: 0,
@@ -85,7 +87,7 @@ export default function ProductPage() {
     },
   }));
 
-  const PriceItem = styled("li")(({ theme }) => ({
+  const PriceItem = styled("li")(({  }) => ({
     display: "inline-block",
     marginRight: "10px",
     fontWeight: 500,
@@ -100,7 +102,7 @@ export default function ProductPage() {
     },
   }));
 
-  const PercentageOff = styled(Box)(({ theme }) => ({
+  const PercentageOff = styled(Box)(({  }) => ({
     fontSize: "14px",
     color: "red",
     paddingLeft: "5px",
@@ -116,22 +118,24 @@ export default function ProductPage() {
   const pathname = usePathname();
   const productId = pathname.split("/")[2];
 
-  const fetchToken = async () => {
+  const fetchRelatedProducts = async () => {
     try {
-      const loginPayload = {
-        email: "john@example.com",
-        password: "password123",
-      };
-      const response = await axios.post(
-        `${BASE_URL}/v1/auth/login`,
-        loginPayload
-      );
-      return response.data.tokens.access.token;
+      if(!categoryId) return [];
+      const [relatedProduct] = await Promise.all([
+        axios.get(`${BASE_URL}/v1/products?limit=30&page=1&category=${categoryId}`),
+      ]);
+
+      const relatedProductWithoutCurrentProduct = relatedProduct.data.results.filter((product) => product.id != productId)
+
+      setRelatedProduct(relatedProductWithoutCurrentProduct);
+
+      return relatedProductWithoutCurrentProduct
     } catch (error) {
-      console.error("Error fetching new token:", error.message);
-      throw error;
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
-  };
+  }
 
   const fetchData = async () => {
     try {
@@ -139,6 +143,7 @@ export default function ProductPage() {
         axios.get(`${BASE_URL}/v1/products/${productId}`),
       ]);
       setProduct(productsResponse.data);
+      setCategoryId(productsResponse?.data?.category?.id)
 
       return productsResponse.data;
     } catch (error) {
@@ -146,7 +151,7 @@ export default function ProductPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const addReview = async (reviewData) => {
     try {
@@ -180,38 +185,29 @@ export default function ProductPage() {
     //   return refreshedToken;
     // }
     // return token;
-    const token = localStorage.getItem("jwttoken")
+    const token = localStorage.getItem("jwttoken");
     return token;
-  };
-
-  const isTokenExpired = (token) => {
-    if (!token) return true;
-
-    try {
-      // const { exp } = jwt_decode(token);
-      // if (!exp) return true;
-
-      // const currentTime = Math.floor(Date.now() / 1000);
-      return true
-    } catch (error) {
-      console.error("Error decoding token:", error.message);
-      return true;
-    }
   };
 
   useEffect(() => {
     const initializeData = async () => {
       const data = await fetchData();
-      setSelectedColor(data.colors[0]);
-      setCurrentImage(data.colors[0].images[0]);
-      setAllColor(data.colors);
-      setFinalPrice(data.finalPrice);
-      setPrice(data.price);
-      setDescription(data.description);
-      setSpecifications(data.specifications);
+      setSelectedColor(data?.colors[0]);
+      setCurrentImage(data?.colors[0].images[0]);
+      setAllColor(data?.colors);
+      setFinalPrice(data?.finalPrice);
+      setPrice(data?.price);
+      setDescription(data?.description);
+      setSpecifications(data?.specifications);
     };
     initializeData();
   }, []);
+
+useEffect(() => {
+  fetchRelatedProducts();
+}, [categoryId])
+
+  const isMobile = true;
 
   function format(dateString: string): string {
     const date = new Date(dateString);
@@ -237,6 +233,7 @@ export default function ProductPage() {
     return `${month} ${day}, ${year}`;
   }
 
+
   const handleAddReview = () => {
     if (newReview.userName && newReview.rating && newReview.comment) {
       setReviews((prev) => [
@@ -248,13 +245,15 @@ export default function ProductPage() {
     const newComment = newReview.comment;
     const newrating = newReview.rating;
 
-    const newReviewAdd = { 
+    const newReviewAdd = {
       comment: newComment,
       rating: newrating,
-      userId: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") || '{}').id : USER_ID
-    }
+      userId: localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user") || "{}").id
+        : USER_ID,
+    };
 
-    addReview(newReviewAdd)
+    addReview(newReviewAdd);
   };
 
   if (loading) {
@@ -437,7 +436,7 @@ export default function ProductPage() {
                         alignItems: "center",
                       }}
                     >
-                      ({product.reviews.length})
+                      ({product?.reviews?.length})
                     </Typography>
                   </Box>
                 </Box>
@@ -461,7 +460,7 @@ export default function ProductPage() {
                               lineHeight: "normal",
                             }}
                           >
-                            ₹ {product.finalPrice.toFixed(2)}
+                            ₹ {finalPrice?.toFixed(2)}
                             <Decimals className="decimals">.00</Decimals>
                           </Typography>
                         </Typography>
@@ -478,7 +477,7 @@ export default function ProductPage() {
                           className="bold-compare-at-money"
                           sx={{ textDecoration: "none" }}
                         >
-                          ₹ {product.price.toFixed(2)}
+                          ₹ {price?.toFixed(2)}
                           <Decimals className="decimals">.00</Decimals>
                         </Typography>
                       </PriceItem>
@@ -575,12 +574,64 @@ export default function ProductPage() {
               </Box>
             </Grid>
 
+            {/* Related Products Section */}
+            {categoryId && (
+              <Grid item xs={12} sm={12}>
+                <Box
+                  mt={4}
+                  sx={{
+                    pb: 4,
+                    overflowX: "hidden",
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      textAlign: "left",
+                      fontWeight: "bold",
+                      fontSize: isMobile ? "1.5rem" : "2rem",
+                      mb: 4,
+                    }}
+                  >
+                    You will also Love
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      position: "relative",
+                      gap: isMobile ? 2 : 4,
+                      overflowX: "auto",
+                      scrollBehavior: "smooth",
+                      px: isMobile ? 0 : 2,
+                      scrollbarWidth: "none",
+                      "&::-webkit-scrollbar": { display: "none" },
+                    }}
+                  >
+                    {relatedProduct?.map((product) => (
+                      <Box
+                        key={product.id}
+                        sx={{
+                          flexShrink: 0,
+                          width: isMobile ? "85%" : "300px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          transition: "transform 0.5s ease, opacity 0.5s ease",
+                        }}
+                      >
+                        <ProductCard productData={product} />
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+              </Grid>
+            )}
+
             {/* Reviews Section */}
             <Grid item xs={12}>
               <Box mt={5}>
                 <Typography variant="h5" fontWeight="bold" mb={2}>
-                  Reviews ({product?.reviews?.length}) - Average Rating:{" "}
-                  {product?.averageRating}
+                  Reviews
                 </Typography>
                 <Box display="flex" gap={2} flexDirection="column">
                   {product.reviews?.map((review, index) => (
