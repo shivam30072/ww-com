@@ -68,10 +68,7 @@
   padding: 0 20px;
   border: none;
   border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -164,5 +161,61 @@ a.secondary {
 @media (prefers-color-scheme: dark) {
   .logo {
     filter: invert();
+  }
+}
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+}
+
+.loaderBox {
+  position: relative;
+  width: 100px;
+  height: 60px;
+  border: 2px solid #000;
+  overflow: hidden;
+}
+
+.loaderFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: #5a321a;
+  animation: fillLoader 3s linear infinite;
+}
+
+.loaderText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: #cc5500;
+  z-index: 1;
+  animation: textColor 3s linear infinite;
+}
+
+@keyframes fillLoader {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes textColor {
+  50% {
+    color: white;
+  }
+  100% {
+    color: white;
   }
 }

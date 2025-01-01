@@ -13,6 +13,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import styles from "./page.module.css";
 
 const BASE_URL = process.env.BACKEND_BASE_URL;
 
@@ -39,7 +40,7 @@ export default function Home() {
         axios.get(`${BASE_URL}/v1/products?limit=30&page=1`),
         axios.get(`${BASE_URL}/v1/category?limit=10&page=1`),
       ]);
-      setProductList(productsResponse.data.results);
+      setProductList(productsResponse.data.results.slice(0, 8));
       setCategoryList(categoriesResponse.data.results);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -73,12 +74,26 @@ export default function Home() {
   };
 
   if (loading) {
-    return <Box mt={8.5}>Loading...</Box>;
+    return (
+      <div className={styles.loaderContainer}>
+        <div className={styles.loaderBox}>
+          <div className={styles.loaderFill}></div>
+          <span className={styles.loaderText}>SIYA</span>
+        </div>
+      </div>
+    );
   }
 
   return (
     <Box mt={{ xs: 7, sm: 16 }}>
-      <ImageSlider />
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={categoryAnimation}
+      >
+        <ImageSlider />
+      </motion.div>
       <Container>
         <Heading title="Category" textAlign="center" />
         <Box
