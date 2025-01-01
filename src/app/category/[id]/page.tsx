@@ -51,7 +51,7 @@ const CategoryPage = () => {
             console.error("Error fetching data:", error);
           }
         };
-        // fetchData();
+        fetchData();
       }
     }
   }, [id]);

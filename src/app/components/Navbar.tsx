@@ -261,16 +261,26 @@ const Navbar = () => {
           justifyContent={"space-between"}
         >
           {categories.map((category: categoryTypes) => (
-            <Typography
+            <Box
               key={category.id}
-              onClick={() => router.push(`/category/${category.id}`)}
-              color={colors.textSecondary}
-              fontSize={"18px"}
-              fontWeight={"bold"}
-              sx={{ cursor: "pointer", "&:hover": { color: colors.text } }}
+              position="relative"
+              sx={{ cursor: "pointer", display: "inline-block" }}
+              className="hover-underline-animation"
             >
-              {category.name}
-            </Typography>
+              <Typography
+                onClick={() => router.push(`/category/${category.id}`)}
+                color={colors.textSecondary}
+                fontSize={"18px"}
+                fontWeight={"bold"}
+                sx={{
+                  "&:hover": { color: colors.text },
+                  display: "inline-block",
+                  paddingBottom: "4px",
+                }}
+              >
+                {category.name}
+              </Typography>
+            </Box>
           ))}
         </Box>
       </Box>

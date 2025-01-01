@@ -77,9 +77,8 @@ export default function Home() {
   }
 
   return (
-    <Box mt={8.5}>
+    <Box mt={{ xs: 7, sm: 16 }}>
       <ImageSlider />
-
       <Container>
         <Heading title="Category" textAlign="center" />
         <Box
