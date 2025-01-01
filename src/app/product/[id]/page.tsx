@@ -17,6 +17,7 @@ import {
   Avatar,
   TextField,
   Container,
+  styled,
 } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,6 +25,7 @@ import axios from "axios";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { body } from "framer-motion/client";
+import Link from "next/link";
 const BASE_URL = process.env.BACKEND_BASE_URL;
 const USER_ID = process.env.USER_ID;
 
@@ -44,6 +46,72 @@ export default function ProductPage() {
     rating: 0,
     comment: "",
   });
+  const discountPercentage = ((product.discount / product.price) * 100).toFixed(
+    2
+  );
+
+  const PriceContainer = styled(Box)(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column-reverse",
+      alignItems: "flex-start",
+    },
+  }));
+
+  const PriceWrapper = styled(Box)(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flex: 1,
+    paddingRight: "20px",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column-reverse",
+      alignItems: "flex-start",
+      paddingRight: "0",
+    },
+  }));
+
+  const PriceList = styled("ul")(({ theme }) => ({
+    listStyle: "none",
+    margin: "10px 0 0",
+    padding: "0",
+    fontSize: "24px",
+    color: "#000",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "19px",
+      textAlign: "left",
+    },
+  }));
+
+  const PriceItem = styled("li")(({ theme }) => ({
+    display: "inline-block",
+    marginRight: "10px",
+    fontWeight: 500,
+    "&.current-price": {
+      fontWeight: 800,
+      fontSize: "24px",
+      lineHeight: "111%",
+    },
+    "&.list-price": {
+      textDecoration: "line-through",
+      color: "#787878",
+    },
+  }));
+
+  const PercentageOff = styled(Box)(({ theme }) => ({
+    fontSize: "14px",
+    color: "red",
+    paddingLeft: "5px",
+    fontWeight: 600,
+  }));
+
+  const Decimals = styled("span")({
+    fontSize: "70%",
+    lineHeight: "normal",
+    position: "relative",
+  });
 
   const pathname = usePathname();
   const productId = pathname.split("/")[2];
@@ -54,7 +122,10 @@ export default function ProductPage() {
         email: "john@example.com",
         password: "password123",
       };
-      const response = await axios.post(`${BASE_URL}/v1/auth/login`, loginPayload);
+      const response = await axios.post(
+        `${BASE_URL}/v1/auth/login`,
+        loginPayload
+      );
       return response.data.tokens.access.token;
     } catch (error) {
       console.error("Error fetching new token:", error.message);
@@ -234,34 +305,6 @@ export default function ProductPage() {
                     />
                   ))}
                 </Box>
-
-                {/* Color Picker */}
-                {/* <Box mt={3}>
-              <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                Choose Color:
-              </Typography>
-              <Box display="flex" gap={1}>
-                {product.colors.map((color) => (
-                  <Chip
-                    key={color.colorName}
-                    label={color.colorName}
-                    onClick={() => {
-                      setSelectedColor(color);
-                      setCurrentImage(color.images[0]);
-                    }}
-                    sx={{
-                      backgroundColor: color.colorName,
-                      color: "#fff",
-                      cursor: "pointer",
-                      border:
-                        selectedColor.colorName === color.colorName
-                          ? "2px solid black"
-                          : "none",
-                    }}
-                  />
-                ))}
-              </Box>
-            </Box> */}
                 <Box mt={3}>
                   <Typography
                     variant="subtitle1"
@@ -323,22 +366,132 @@ export default function ProductPage() {
             {/* Product Details Section */}
             <Grid item xs={12} sm={6}>
               <Box>
-                <Typography variant="h4" fontWeight="bold" mb={2}>
-                  {product?.name}
-                </Typography>
-                <Typography variant="h5" color="text.secondary" mb={1}>
-                  ₹{(finalPrice || 0)?.toFixed(2)}{" "}
+                <Box
+                  className="product-title-loox-wrapper"
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    marginBottom: 0,
+                  }}
+                >
                   <Typography
-                    component="span"
+                    variant="h5"
+                    component="h1"
                     sx={{
-                      textDecoration: "line-through",
-                      ml: 1,
-                      color: "gray",
+                      fontWeight: 300,
+                      flex: 1,
+                      fontFamily: "Avenir Next, sans-serif",
+                      fontSize: "1.5rem",
+                    }}
+                    className="product-item-caption-title"
+                  >
+                    {product.name}
+                  </Typography>
+                  <Box
+                    className="cust-loox-rating"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      minWidth: "100px",
+                      justifyContent: "flex-end",
+                      marginLeft: "10px",
                     }}
                   >
-                    ₹{(price || 0)?.toFixed(2)}
-                  </Typography>
-                </Typography>
+                    <Box
+                      component="span"
+                      className="review-rating"
+                      sx={{
+                        background: "#679f37",
+                        color: "#fff",
+                        padding: "5px 8px",
+                        display: "flex",
+                        alignItems: "center",
+                        fontWeight: 400,
+                        fontSize: "13px",
+                        lineHeight: 1,
+                        borderRadius: "35px",
+                      }}
+                    >
+                      <Typography
+                        variant="body2"
+                        component="span"
+                        sx={{
+                          marginRight: "4px",
+                          lineHeight: 1,
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        {product.averageRating}
+                      </Typography>
+                      <StarIcon fontSize="small" />
+                    </Box>
+                    <Typography
+                      variant="body2"
+                      className="review-count"
+                      sx={{
+                        fontSize: "13px",
+                        color: "#787878",
+                        marginLeft: "10px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      ({product.reviews.length})
+                    </Typography>
+                  </Box>
+                </Box>
+                <PriceContainer className="pdp-price-index">
+                  <PriceWrapper className="pdp-price-wrapper">
+                    <PriceList className="product-item-caption-price">
+                      <PriceItem
+                        id="ProductPrice-product-template"
+                        className="current-price"
+                      >
+                        <Typography
+                          component="span"
+                          className="money price__current"
+                        >
+                          <Typography
+                            component="span"
+                            className="money product__price"
+                            sx={{
+                              display: "inline-flex",
+                              alignItems: "flex-start",
+                              lineHeight: "normal",
+                            }}
+                          >
+                            ₹ {product.finalPrice.toFixed(2)}
+                            <Decimals className="decimals">.00</Decimals>
+                          </Typography>
+                        </Typography>
+                      </PriceItem>
+                      <PriceItem
+                        id="ComparePrice-product-template"
+                        className="list-price"
+                      >
+                        <Typography component="span" className="mrp">
+                          MRP
+                        </Typography>
+                        <Typography
+                          component="span"
+                          className="bold-compare-at-money"
+                          sx={{ textDecoration: "none" }}
+                        >
+                          ₹ {product.price.toFixed(2)}
+                          <Decimals className="decimals">.00</Decimals>
+                        </Typography>
+                      </PriceItem>
+                      <PriceItem>
+                        <PercentageOff className="percentage_off">
+                          {discountPercentage}%
+                          <Typography component="span">OFF</Typography>
+                        </PercentageOff>
+                      </PriceItem>
+                    </PriceList>
+                  </PriceWrapper>
+                </PriceContainer>
+
                 <Typography variant="body2" color="text.secondary" mb={3}>
                   {description}
                 </Typography>
@@ -354,15 +507,40 @@ export default function ProductPage() {
                 <Typography variant="body2" color="text.secondary" mb={2}>
                   Care: {product?.specifications?.care}
                 </Typography>
-
-                <Box display="flex" gap={2} mt={4}>
+                <Box
+                  sx={{
+                    position: "fixed",
+                    bottom: 0,
+                    left: 0,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    backgroundColor: "#ffffff",
+                    boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
+                    zIndex: 1000,
+                  }}
+                >
                   <Button
                     variant="contained"
                     startIcon={<ShoppingCart />}
                     sx={{
-                      backgroundColor: "#ff5722",
-
-                      "&:hover": { backgroundColor: "#e64a19" },
+                      flex: 1,
+                      height: "60px",
+                      backgroundColor: "#5A321A",
+                      color: "#ffffff",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      borderRadius: "0px",
+                      textTransform: "none",
+                      transition:
+                        "background-color 0.3s ease, transform 0.2s ease",
+                      "&:hover": {
+                        backgroundColor: "#0056b3",
+                        transform: "scale(1.02)",
+                      },
+                      "&:active": {
+                        transform: "scale(0.98)",
+                      },
                     }}
                   >
                     Add to Cart
@@ -372,9 +550,23 @@ export default function ProductPage() {
                     variant="contained"
                     startIcon={<BoltIcon />}
                     sx={{
-                      backgroundColor: "#ff9800",
-
-                      "&:hover": { backgroundColor: "#f57c00" },
+                      flex: 1,
+                      height: "60px",
+                      backgroundColor: "#28a745",
+                      color: "#ffffff",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      borderRadius: "0px",
+                      textTransform: "none",
+                      transition:
+                        "background-color 0.3s ease, transform 0.2s ease",
+                      "&:hover": {
+                        backgroundColor: "#218838",
+                        transform: "scale(1.02)",
+                      },
+                      "&:active": {
+                        transform: "scale(0.98)",
+                      },
                     }}
                   >
                     Buy Now
@@ -391,39 +583,38 @@ export default function ProductPage() {
                   {product?.averageRating}
                 </Typography>
                 <Box display="flex" gap={2} flexDirection="column">
-                  {
-                    product.reviews?.map((review, index) => (
-                      <Card key={index} sx={{ display: "flex", p: 2, gap: 2 }}>
-                        <Avatar sx={{ width: 56, height: 56 }}>
-                          {review?.userId?.name.charAt(0)}
-                        </Avatar>
-                        <CardContent>
-                          <Typography variant="subtitle1" fontWeight="bold">
-                            {review?.userId?.name}
-                          </Typography>
-                          <Typography
-                            variant="caption"
-                            color="text.secondary"
-                            sx={{ display: "block", mb: 1 }}
-                          >
-                            Posted on {format(review?.createdAt)}
-                          </Typography>
-                          <Rating
-                            value={review.rating}
-                            readOnly
-                            size="small"
-                            icon={<StarIcon fontSize="inherit" />}
-                          />
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            mt={1}
-                          >
-                            {review?.comment}
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    ))}
+                  {product.reviews?.map((review, index) => (
+                    <Card key={index} sx={{ display: "flex", p: 2, gap: 2 }}>
+                      <Avatar sx={{ width: 56, height: 56 }}>
+                        {review?.userId?.name.charAt(0)}
+                      </Avatar>
+                      <CardContent>
+                        <Typography variant="subtitle1" fontWeight="bold">
+                          {review?.userId?.name}
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          sx={{ display: "block", mb: 1 }}
+                        >
+                          Posted on {format(review?.createdAt)}
+                        </Typography>
+                        <Rating
+                          value={review.rating}
+                          readOnly
+                          size="small"
+                          icon={<StarIcon fontSize="inherit" />}
+                        />
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          mt={1}
+                        >
+                          {review?.comment}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </Box>
 
                 {/* Write a Review Section */}
@@ -432,15 +623,6 @@ export default function ProductPage() {
                     Write a Review
                   </Typography>
                   <Box display="flex" flexDirection="column" gap={2}>
-                    {/* <TextField
-                  label="Your Name"
-                  variant="outlined"
-                  fullWidth
-                  value={newReview.userName}
-                  onChange={(e) =>
-                    setNewReview({ ...newReview, userName: e.target.value })
-                  }
-                /> */}
                     <Rating
                       value={newReview?.rating}
                       onChange={(e, newValue) =>
@@ -462,6 +644,7 @@ export default function ProductPage() {
                       variant="contained"
                       color="primary"
                       onClick={handleAddReview}
+                      sx={{ marginBottom: "3rem" }}
                     >
                       Submit Review
                     </Button>
