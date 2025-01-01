@@ -69,7 +69,7 @@ const ProductCard = ({ productData }: productDataProp) => {
           color={colors.textSecondary}
           textAlign={"center"}
         >
-          {productData.name}
+          {productData.name.length > 24 ? `${productData.name.substring(0, 23)}...` : productData.name}
         </Typography>
         <Typography color={colors.text}>₹{productData.finalPrice}</Typography>
         <motion.div whileTap={{ scale: 0.95 }} style={{ width: "100%" }}>
