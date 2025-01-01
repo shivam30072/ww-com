@@ -507,15 +507,40 @@ export default function ProductPage() {
                 <Typography variant="body2" color="text.secondary" mb={2}>
                   Care: {product?.specifications?.care}
                 </Typography>
-
-                <Box display="flex" gap={2} mt={4}>
+                <Box
+                  sx={{
+                    position: "fixed",
+                    bottom: 0,
+                    left: 0,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    backgroundColor: "#ffffff",
+                    boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
+                    zIndex: 1000,
+                  }}
+                >
                   <Button
                     variant="contained"
                     startIcon={<ShoppingCart />}
                     sx={{
-                      backgroundColor: "#ff5722",
-
-                      "&:hover": { backgroundColor: "#e64a19" },
+                      flex: 1,
+                      height: "60px",
+                      backgroundColor: "#5A321A",
+                      color: "#ffffff",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      borderRadius: "0px",
+                      textTransform: "none",
+                      transition:
+                        "background-color 0.3s ease, transform 0.2s ease",
+                      "&:hover": {
+                        backgroundColor: "#0056b3",
+                        transform: "scale(1.02)",
+                      },
+                      "&:active": {
+                        transform: "scale(0.98)",
+                      },
                     }}
                   >
                     Add to Cart
@@ -525,9 +550,23 @@ export default function ProductPage() {
                     variant="contained"
                     startIcon={<BoltIcon />}
                     sx={{
-                      backgroundColor: "#ff9800",
-
-                      "&:hover": { backgroundColor: "#f57c00" },
+                      flex: 1,
+                      height: "60px",
+                      backgroundColor: "#28a745",
+                      color: "#ffffff",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      borderRadius: "0px",
+                      textTransform: "none",
+                      transition:
+                        "background-color 0.3s ease, transform 0.2s ease",
+                      "&:hover": {
+                        backgroundColor: "#218838",
+                        transform: "scale(1.02)",
+                      },
+                      "&:active": {
+                        transform: "scale(0.98)",
+                      },
                     }}
                   >
                     Buy Now
@@ -605,6 +644,7 @@ export default function ProductPage() {
                       variant="contained"
                       color="primary"
                       onClick={handleAddReview}
+                      sx={{ marginBottom: "3rem" }}
                     >
                       Submit Review
                     </Button>
