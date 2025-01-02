@@ -63,16 +63,19 @@ const Navbar = () => {
   //     setLoginModalOpen(true); // Replace with the actual route of your user details page
   // }
 
-
   const handleLoginOpen = () => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      console.log("user:: ", user)
-
-      if (user && user.id) {
-        router.push(`/user/${user.id}`);
+      const userString = localStorage.getItem("user");
+      if (userString) {
+        const user: { id?: string } = JSON.parse(userString); // Explicitly typing `user`
+        console.log("user:: ", user);
+        if (user?.id) {
+          router.push(`/user/${user.id}`);
+        } else {
+          setLoginModalOpen(true);
+        }
       } else {
-        setLoginModalOpen(true); // Open login popup if no ID is found
+        setLoginModalOpen(true); // Open login popup if user is not found
       }
     } catch (error) {
       console.error("Error reading user from localStorage:", error);
