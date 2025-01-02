@@ -58,7 +58,28 @@ const Navbar = () => {
 
   const { products } = useAppSelector((state) => state.Cart);
 
-  const handleLoginOpen = () => setLoginModalOpen(true);
+  // const handleLoginOpen = () =>{
+  //     router.push("/user/:id");
+  //     setLoginModalOpen(true); // Replace with the actual route of your user details page
+  // }
+
+
+  const handleLoginOpen = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      console.log("user:: ", user)
+
+      if (user && user.id) {
+        router.push(`/user/${user.id}`);
+      } else {
+        setLoginModalOpen(true); // Open login popup if no ID is found
+      }
+    } catch (error) {
+      console.error("Error reading user from localStorage:", error);
+      setLoginModalOpen(true); // Open login popup if parsing fails
+    }
+  };
+
   const handleModalClose = () => setLoginModalOpen(false);
 
   const handleCartClick = () => {
