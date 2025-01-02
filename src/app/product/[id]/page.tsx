@@ -22,6 +22,7 @@ import {
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import styles from "../../page.module.css";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { body } from "framer-motion/client";
@@ -257,7 +258,14 @@ useEffect(() => {
   };
 
   if (loading) {
-    return <Box mt={8.5}>Loading...</Box>;
+    return (
+      <div className={styles.loaderContainer}>
+        <div className={styles.loaderBox}>
+          <div className={styles.loaderFill}></div>
+          <span className={styles.loaderText}>SIYA</span>
+        </div>
+      </div>
+    );
   }
 
   return (
