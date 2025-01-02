@@ -92,7 +92,7 @@
 
 //   const handleAddAddress = () => {
 //     const { addressLine1, city, state, postalCode, country } = newAddress;
-//     const user = JSON.parse(localStorage.getItem("user")).id 
+//     const user = JSON.parse(localStorage.getItem("user")).id
 //     newAddress.user = user;
 
 //     if (
@@ -408,7 +408,6 @@
 //   );
 // }
 
-
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -424,7 +423,7 @@ import {
   CircularProgress,
   Modal,
   Fade,
-  styled
+  styled,
 } from "@mui/material";
 // import { styled } from "@mui/system";
 
@@ -478,19 +477,6 @@ const PrimaryButton = styled(Button)({
   },
 });
 
-const ModalContainer = styled(Box)({
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 10,
-  width: "90%",
-  maxWidth: 600,
-});
-
 export default function UserDetails() {
   const [user, setUser] = useState<User | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -512,13 +498,12 @@ export default function UserDetails() {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("jwttoken") : null;
 
-    const handleUnauthorized = () => {
-      console.error('Session expired or invalid token. Redirecting to login...');
-      localStorage.removeItem("user");
-      localStorage.removeItem("jwttoken");
-      // router.push("/login");
-    };
-
+  const handleUnauthorized = () => {
+    console.error("Session expired or invalid token. Redirecting to login...");
+    localStorage.removeItem("user");
+    localStorage.removeItem("jwttoken");
+    // router.push("/login");
+  };
 
   useEffect(() => {
     const loggedInUser =
@@ -542,7 +527,8 @@ export default function UserDetails() {
             handleUnauthorized();
           } else {
             console.error(err);
-          }})
+          }
+        });
     }
   }, [token]);
 
@@ -559,7 +545,8 @@ export default function UserDetails() {
   };
 
   const handleAddAddress = () => {
-    const { addressLine1, city, state, postalCode, country } = newAddress;
+    const updatedAddress = { ...newAddress, user: "" };
+    const { addressLine1, city, state, postalCode, country } = updatedAddress;
     // const user = JSON.parse(localStorage.getItem("user")).id;
     // newAddress.user = user;
 
@@ -567,14 +554,14 @@ export default function UserDetails() {
     if (storedUser) {
       const user = JSON.parse(storedUser)?.id;
       if (user) {
-        newAddress.user = user;
+        updatedAddress.user = user;
       } else {
         console.error("User ID not found in stored user data.");
       }
     } else {
       console.error("No user data found in localStorage.");
     }
-    
+
     if (
       addressLine1.trim() &&
       city.trim() &&
@@ -584,7 +571,7 @@ export default function UserDetails() {
     ) {
       setLoading(true);
       axios
-        .post(`${baseUrl}/v1/addresses`, newAddress, {
+        .post(`${baseUrl}/v1/addresses`, updatedAddress, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(() => {
@@ -625,7 +612,7 @@ export default function UserDetails() {
         } else {
           console.error(err);
         }
-      })
+      });
   };
 
   const handleEditAddress = () => {
@@ -644,7 +631,7 @@ export default function UserDetails() {
           } else {
             console.error(err);
           }
-        })
+        });
     }
   };
 
@@ -660,7 +647,7 @@ export default function UserDetails() {
         } else {
           console.error(err);
         }
-      })
+      });
   };
 
   return (
@@ -668,10 +655,18 @@ export default function UserDetails() {
       {user && (
         <>
           <Box sx={{ mb: 4 }}>
-            <HeaderText variant="h4" style={{marginTop: "2rem"}}>Welcome, {user.name}</HeaderText>
+            <HeaderText variant="h4" style={{ marginTop: "2rem" }}>
+              Welcome, {user.name}
+            </HeaderText>
             <SubHeaderText variant="subtitle1">Role: {user.role}</SubHeaderText>
-            <SubHeaderText variant="subtitle1">Mobile: {user.mobile}</SubHeaderText>
-            <PrimaryButton variant="contained" onClick={handleLogout} sx={{ mt: 2 }}>
+            <SubHeaderText variant="subtitle1">
+              Mobile: {user.mobile}
+            </SubHeaderText>
+            <PrimaryButton
+              variant="contained"
+              onClick={handleLogout}
+              sx={{ mt: 2 }}
+            >
               Logout
             </PrimaryButton>
           </Box>
@@ -749,7 +744,9 @@ export default function UserDetails() {
             </Grid>
 
             <Box sx={{ mt: 4 }}>
-              <Typography variant="h6" fontWeight="bold">Add New Address</Typography>
+              <Typography variant="h6" fontWeight="bold">
+                Add New Address
+              </Typography>
               <Grid container spacing={2} sx={{ mt: 2, mb: 2 }}>
                 <Grid item xs={12}>
                   <TextField
@@ -842,7 +839,20 @@ export default function UserDetails() {
             BackdropComponent="div"
           >
             <Fade in={editModalOpen}>
-              <ModalContainer>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  bgcolor: "background.paper",
+                  boxShadow: 24,
+                  p: 4,
+                  borderRadius: 10,
+                  width: "90%",
+                  maxWidth: 600,
+                }}
+              >
                 <Typography variant="h6">Edit Address</Typography>
                 <Grid container spacing={2} sx={{ mt: 2 }}>
                   <Grid item xs={12}>
@@ -895,7 +905,7 @@ export default function UserDetails() {
                     </Button>
                   </Grid>
                 </Grid>
-              </ModalContainer>
+              </Box>
             </Fade>
           </Modal>
         </>
