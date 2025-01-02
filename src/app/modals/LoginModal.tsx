@@ -126,7 +126,6 @@
 
 // export default LoginModal;
 
-
 import { Box, Dialog, IconButton, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
@@ -143,7 +142,7 @@ const LoginModal = ({ open, onClose }: loginPropTypes) => {
   const [mobile, setMobile] = useState("");
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
   const [step, setStep] = useState<"enterMobile" | "verifyOtp">("enterMobile");
-  const [name, setName] = useState("");  // Default to empty string, ask for name in the send OTP step
+  const [name, setName] = useState(""); // Default to empty string, ask for name in the send OTP step
   const [storedName, setStoredName] = useState<string | null>(null); // Store the name for later use
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,9 +168,10 @@ const LoginModal = ({ open, onClose }: loginPropTypes) => {
 
   const handleClose = () => {
     setMobile("");
+    setName("");
     setOtp(["", "", "", ""]);
     setStep("enterMobile");
-    setStoredName(null);  // Reset the stored name
+    setStoredName(null); // Reset the stored name
     onClose();
   };
 
@@ -196,13 +196,22 @@ const LoginModal = ({ open, onClose }: loginPropTypes) => {
       const formattedMobile = `91${mobile}`;
       const otpValue = otp.join("");
       try {
-        const verifyOtpResponse = await axios.post(`${process.env.BACKEND_BASE_URL}/v1/auth/verify-otp`, {
-          mobile: formattedMobile,
-          otp: otpValue,
-          name: storedName,
-        });
-        localStorage.setItem("jwttoken", verifyOtpResponse.data.tokens.access.token)
-        localStorage.setItem("user", JSON.stringify(verifyOtpResponse.data.user))
+        const verifyOtpResponse = await axios.post(
+          `${process.env.BACKEND_BASE_URL}/v1/auth/verify-otp`,
+          {
+            mobile: formattedMobile,
+            otp: otpValue,
+            name: storedName,
+          }
+        );
+        localStorage.setItem(
+          "jwttoken",
+          verifyOtpResponse.data.tokens.access.token
+        );
+        localStorage.setItem(
+          "user",
+          JSON.stringify(verifyOtpResponse.data.user)
+        );
         alert("OTP Verified Successfully!");
         handleClose();
       } catch (error) {
