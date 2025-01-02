@@ -425,6 +425,7 @@ import {
   Fade,
   styled,
 } from "@mui/material";
+import { colors } from "@/app/constants";
 // import { styled } from "@mui/system";
 
 interface User {
@@ -470,7 +471,7 @@ const SubHeaderText = styled(Typography)({
 const PrimaryButton = styled(Button)({
   backgroundColor: "#FF5722",
   color: "#fff",
-  borderRadius: "30px",
+  borderRadius: "12px",
   padding: "10px 20px",
   "&:hover": {
     backgroundColor: "#e64a19",
@@ -836,7 +837,6 @@ export default function UserDetails() {
             open={editModalOpen}
             onClose={() => setEditModalOpen(false)}
             closeAfterTransition
-            BackdropComponent="div"
           >
             <Fade in={editModalOpen}>
               <Box
@@ -861,10 +861,14 @@ export default function UserDetails() {
                       label="Address Line 1"
                       value={editingAddress?.addressLine1 || ""}
                       onChange={(e) =>
-                        setEditingAddress({
-                          ...editingAddress,
-                          addressLine1: e.target.value,
-                        })
+                        setEditingAddress((prev) =>
+                          prev
+                            ? {
+                                ...prev,
+                                addressLine1: e.target.value,
+                              }
+                            : null
+                        )
                       }
                     />
                   </Grid>
@@ -874,10 +878,14 @@ export default function UserDetails() {
                       label="City"
                       value={editingAddress?.city || ""}
                       onChange={(e) =>
-                        setEditingAddress({
-                          ...editingAddress,
-                          city: e.target.value,
-                        })
+                        setEditingAddress((prev) =>
+                          prev
+                            ? {
+                                ...prev,
+                                city: e.target.value,
+                              }
+                            : null
+                        )
                       }
                     />
                   </Grid>
@@ -887,22 +895,53 @@ export default function UserDetails() {
                       label="State"
                       value={editingAddress?.state || ""}
                       onChange={(e) =>
-                        setEditingAddress({
-                          ...editingAddress,
-                          state: e.target.value,
-                        })
+                        setEditingAddress((prev) =>
+                          prev
+                            ? {
+                                ...prev,
+                                state: e.target.value,
+                              }
+                            : null
+                        )
                       }
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleEditAddress}
-                      fullWidth
-                    >
-                      Save Changes
-                    </Button>
+                    <Box display="flex" gap={2}>
+                      <Button
+                        sx={{
+                          backgroundColor: "#fff",
+                          border: `1px solid ${colors.textSecondary}`,
+                          color: colors.textSecondary,
+                          width: "100%",
+                          borderRadius: "12px",
+                          "&:hover": {
+                            border: `2px solid ${colors.textSecondary}`,
+                          },
+                        }}
+                        onClick={() => setEditModalOpen(false)}
+                        fullWidth
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        sx={{
+                          backgroundColor: "#fff",
+                          border: `1px solid ${colors.textSecondary}`,
+                          color: "#fff",
+                          width: "100%",
+                          borderRadius: "12px",
+                          bgcolor: colors.textSecondary,
+                          "&:hover": {
+                            border: `2px solid ${colors.textSecondary}`,
+                          },
+                        }}
+                        onClick={handleEditAddress}
+                        fullWidth
+                      >
+                        Save Changes
+                      </Button>
+                    </Box>
                   </Grid>
                 </Grid>
               </Box>
