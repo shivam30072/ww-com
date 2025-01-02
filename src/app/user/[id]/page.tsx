@@ -542,7 +542,7 @@ export default function UserDetails() {
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("jwttoken");
-    router.push("/login");
+    router.push("/");
   };
 
   const handleAddAddress = () => {
