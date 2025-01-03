@@ -27,6 +27,7 @@ import styles from "../../page.module.css";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { body } from "framer-motion/client";
 import ProductCard from "@/app/components/home/ProductCard";
+import { colors } from "@/app/constants";
 const BASE_URL = process.env.BACKEND_BASE_URL;
 const USER_ID = process.env.USER_ID;
 
@@ -43,7 +44,7 @@ export default function ProductPage() {
   const [currentImage, setCurrentImage] = useState<string>("");
   // const [reviews, setReviews] = useState("");
   // const [token, setToken] = useState("");
-  const [categoryId, setCategoryId] = useState("")
+  const [categoryId, setCategoryId] = useState("");
   const [newReview, setNewReview] = useState({
     userName: "",
     rating: 0,
@@ -88,7 +89,7 @@ export default function ProductPage() {
     },
   }));
 
-  const PriceItem = styled("li")(({  }) => ({
+  const PriceItem = styled("li")(({}) => ({
     display: "inline-block",
     marginRight: "10px",
     fontWeight: 500,
@@ -103,7 +104,7 @@ export default function ProductPage() {
     },
   }));
 
-  const PercentageOff = styled(Box)(({  }) => ({
+  const PercentageOff = styled(Box)(({}) => ({
     fontSize: "14px",
     color: "red",
     paddingLeft: "5px",
@@ -121,22 +122,27 @@ export default function ProductPage() {
 
   const fetchRelatedProducts = async () => {
     try {
-      if(!categoryId) return [];
+      if (!categoryId) return [];
       const [relatedProduct] = await Promise.all([
-        axios.get(`${BASE_URL}/v1/products?limit=30&page=1&category=${categoryId}`),
+        axios.get(
+          `${BASE_URL}/v1/products?limit=30&page=1&category=${categoryId}`
+        ),
       ]);
 
-      const relatedProductWithoutCurrentProduct = relatedProduct.data.results.filter((product) => product.id != productId)
+      const relatedProductWithoutCurrentProduct =
+        relatedProduct.data.results.filter(
+          (product) => product.id != productId
+        );
 
       setRelatedProduct(relatedProductWithoutCurrentProduct);
 
-      return relatedProductWithoutCurrentProduct
+      return relatedProductWithoutCurrentProduct;
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const fetchData = async () => {
     try {
@@ -144,7 +150,7 @@ export default function ProductPage() {
         axios.get(`${BASE_URL}/v1/products/${productId}`),
       ]);
       setProduct(productsResponse.data);
-      setCategoryId(productsResponse?.data?.category?.id)
+      setCategoryId(productsResponse?.data?.category?.id);
 
       return productsResponse.data;
     } catch (error) {
@@ -152,7 +158,7 @@ export default function ProductPage() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const addReview = async (reviewData) => {
     try {
@@ -204,9 +210,9 @@ export default function ProductPage() {
     initializeData();
   }, []);
 
-useEffect(() => {
-  fetchRelatedProducts();
-}, [categoryId])
+  useEffect(() => {
+    fetchRelatedProducts();
+  }, [categoryId]);
 
   const isMobile = true;
 
@@ -233,7 +239,6 @@ useEffect(() => {
 
     return `${month} ${day}, ${year}`;
   }
-
 
   const handleAddReview = () => {
     if (newReview.userName && newReview.rating && newReview.comment) {
@@ -269,7 +274,7 @@ useEffect(() => {
   }
 
   return (
-    <Box mt={8.5} p={2} minHeight={"100vh"}>
+    <Box mt={{ xs: 8.5, sm: 17 }} p={2} minHeight={"100vh"}>
       {product && (
         <Container>
           <Grid container spacing={4}>
@@ -278,7 +283,7 @@ useEffect(() => {
               <Box display={"flex"} flexDirection="column" gap={3}>
                 <Box
                   width={"100%"}
-                  height={"550px"}
+                  height={"400px"}
                   sx={{
                     backgroundImage: `url(${currentImage})`,
                     backgroundSize: "cover",
@@ -312,7 +317,7 @@ useEffect(() => {
                     />
                   ))}
                 </Box>
-                <Box mt={3}>
+                <Box display={{ xs: "block", sm: "none" }}>
                   <Typography
                     variant="subtitle1"
                     fontWeight="bold"
@@ -334,7 +339,7 @@ useEffect(() => {
                         title={color.colorName}
                         arrow
                       >
-                        <Chip
+                        <Box
                           label=""
                           onClick={() => {
                             setSelectedColor(color);
@@ -347,20 +352,10 @@ useEffect(() => {
                             backgroundColor: color.colorName,
                             color: "#fff",
                             cursor: "pointer",
-                            boxShadow:
-                              selectedColor.colorName === color.colorName
-                                ? "0px 4px 10px rgba(0, 0, 0, 0.4)"
-                                : "0px 2px 5px rgba(0, 0, 0, 0.2)",
+
                             border:
-                              selectedColor.colorName === color.colorName
-                                ? "3px solid black"
-                                : "1px solid #ddd",
-                            transition:
-                              "transform 0.3s ease, box-shadow 0.3s ease",
-                            "&:hover": {
-                              transform: "scale(1.1)",
-                              boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.5)",
-                            },
+                              selectedColor.colorName === color.colorName &&
+                              "2px solid #000",
                           }}
                         />
                       </Tooltip>
@@ -505,22 +500,129 @@ useEffect(() => {
                 <Typography variant="subtitle1" fontWeight="bold" mb={1}>
                   Specifications:
                 </Typography>
-                <Typography variant="body2" color="text.secondary" mb={2}>
+                <Typography variant="body2" color="text.secondary" mb={1.5}>
                   Material: {specifications?.material}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" mb={2}>
+                <Typography variant="body2" color="text.secondary" mb={1.5}>
                   Fit: {product?.specifications?.fit}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" mb={2}>
+                <Typography variant="body2" color="text.secondary" mb={1.5}>
                   Care: {product?.specifications?.care}
                 </Typography>
+
+                <Box display={{ xs: "none", sm: "block" }}>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    sx={{ fontSize: "1rem", color: "#000" }}
+                  >
+                    Choose Color:
+                  </Typography>
+                  <Box
+                    display="flex"
+                    gap={1}
+                    flexWrap="wrap"
+                    alignItems="center"
+                    sx={{ mt: 1 }}
+                  >
+                    {allColor?.map((color) => (
+                      <Tooltip
+                        key={color.colorName}
+                        title={color.colorName}
+                        arrow
+                      >
+                        <Box
+                          label=""
+                          onClick={() => {
+                            setSelectedColor(color);
+                            setCurrentImage(color.images[0]);
+                          }}
+                          sx={{
+                            width: 30,
+                            height: 30,
+                            borderRadius: "50%",
+                            backgroundColor: color.colorName,
+                            color: "#fff",
+                            cursor: "pointer",
+
+                            border:
+                              selectedColor.colorName === color.colorName &&
+                              "2px solid #000",
+                          }}
+                        />
+                      </Tooltip>
+                    ))}
+                  </Box>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: { xs: "none", sm: "flex" },
+                    gap: 2,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mt: 3,
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    startIcon={<ShoppingCart />}
+                    sx={{
+                      flex: 1,
+                      height: "60px",
+                      backgroundColor: "#5A321A",
+                      color: "#ffffff",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      borderRadius: "0px",
+                      textTransform: "none",
+                      transition:
+                        "background-color 0.3s ease, transform 0.2s ease",
+                      "&:hover": {
+                        backgroundColor: colors.textSecondary,
+                        transform: "scale(1.02)",
+                      },
+                      "&:active": {
+                        transform: "scale(0.98)",
+                      },
+                    }}
+                  >
+                    ADD TO CART
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    startIcon={<BoltIcon />}
+                    sx={{
+                      flex: 1,
+                      height: "60px",
+                      backgroundColor: colors.text,
+                      color: "#ffffff",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      borderRadius: "0px",
+                      textTransform: "none",
+                      transition:
+                        "background-color 0.3s ease, transform 0.2s ease",
+                      "&:hover": {
+                        backgroundColor: colors.secondary,
+                        transform: "scale(1.02)",
+                      },
+                      "&:active": {
+                        transform: "scale(0.98)",
+                      },
+                    }}
+                  >
+                    BUY NOW
+                  </Button>
+                </Box>
                 <Box
                   sx={{
                     position: "fixed",
                     bottom: 0,
                     left: 0,
                     width: "100%",
-                    display: "flex",
+                    display: { xs: "flex", sm: "none" },
                     justifyContent: "center",
                     backgroundColor: "#ffffff",
                     boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
