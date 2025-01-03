@@ -570,7 +570,7 @@ export default function ProductPage() {
                     sx={{
                       flex: 1,
                       height: "60px",
-                      backgroundColor: "#5A321A",
+                      backgroundColor: colors.textSecondary,
                       color: "#ffffff",
                       fontSize: "16px",
                       fontWeight: "bold",
@@ -635,7 +635,7 @@ export default function ProductPage() {
                     sx={{
                       flex: 1,
                       height: "60px",
-                      backgroundColor: "#5A321A",
+                      backgroundColor: colors.textSecondary,
                       color: "#ffffff",
                       fontSize: "16px",
                       fontWeight: "bold",
@@ -644,7 +644,7 @@ export default function ProductPage() {
                       transition:
                         "background-color 0.3s ease, transform 0.2s ease",
                       "&:hover": {
-                        backgroundColor: "#0056b3",
+                        backgroundColor: colors.textSecondary,
                         transform: "scale(1.02)",
                       },
                       "&:active": {
@@ -661,7 +661,7 @@ export default function ProductPage() {
                     sx={{
                       flex: 1,
                       height: "60px",
-                      backgroundColor: "#28a745",
+                      backgroundColor: colors.text,
                       color: "#ffffff",
                       fontSize: "16px",
                       fontWeight: "bold",
@@ -670,7 +670,7 @@ export default function ProductPage() {
                       transition:
                         "background-color 0.3s ease, transform 0.2s ease",
                       "&:hover": {
-                        backgroundColor: "#218838",
+                        backgroundColor: colors.secondary,
                         transform: "scale(1.02)",
                       },
                       "&:active": {
