@@ -265,81 +265,81 @@ export default function UserDetails() {
           </Box>
 
           {/* Orders Section */}
-<Box sx={{ mb: 4 }}>
-  <Typography variant="h5" fontWeight="bold" gutterBottom >
-    Your Orders
-  </Typography>
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom >
+              Your Orders
+            </Typography>
 
-  {orders.length > 0 ? (
-    <Grid container spacing={2}>
-      {orders.map((order) => (
-        <Grid item xs={12} sm={6} md={4} key={order._id}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <StyledCard
-              sx={{
-                boxShadow: 3,
-                '&:hover': {
-                  transform: 'scale(1.05)',
-                  transition: 'transform 0.3s ease-in-out',
-                  boxShadow: 6,
-                },
-              }}
-            >
-              <CardContent>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main', fontSize: '1rem' }}>
-                    {order?.id}
-                  </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <CartIcon sx={{ color: 'secondary.main', mr: 1 }} />
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      {order.products.length} items
-                    </Typography>
-                  </Box>
-                </Box>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  Date: {new Date(order.orderHistory[0].updatedAt).toLocaleDateString()}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Total: ₹{order.totalAmount.toFixed(2)}
-                </Typography>
-                
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    startIcon={<TimeIcon />}
-                    sx={{ width: '48%' }}
-                  >
-                    {order?.status}
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    size="small"
-                    sx={{ width: '48%' }}
-                    disabled 
-                  >
-                    Cancel Order
-                  </Button>
-                </Box>
-              </CardContent>
-            </StyledCard>
-          </motion.div>
-        </Grid>
-      ))}
-    </Grid>
-  ) : (
-    <Typography variant="body1" sx={{ textAlign: 'center', mt: 3 }}>
-      No orders found.
-    </Typography>
-  )}
-</Box>
+            {orders.length > 0 ? (
+              <Grid container spacing={2}>
+                {orders.map((order) => (
+                  <Grid item xs={12} sm={6} md={4} key={order._id}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <StyledCard
+                        sx={{
+                          boxShadow: 3,
+                          '&:hover': {
+                            transform: 'scale(1.05)',
+                            transition: 'transform 0.3s ease-in-out',
+                            boxShadow: 6,
+                          },
+                        }}
+                      >
+                        <CardContent>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main', fontSize: '1rem' }}>
+                              {order?.id}
+                            </Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <CartIcon sx={{ color: 'secondary.main', mr: 1 }} />
+                              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                {order.products.length} items
+                              </Typography>
+                            </Box>
+                          </Box>
+                          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                            Date: {new Date(order.orderHistory[0].updatedAt).toLocaleDateString()}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                            Total: ₹{order.totalAmount.toFixed(2)}
+                          </Typography>
+
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              size="small"
+                              startIcon={<TimeIcon />}
+                              sx={{ width: '48%' }}
+                            >
+                              {order?.status}
+                            </Button>
+                            <Button
+                              variant="contained"
+                              color="error"
+                              size="small"
+                              sx={{ width: '48%' }}
+                              disabled
+                            >
+                              Cancel Order
+                            </Button>
+                          </Box>
+                        </CardContent>
+                      </StyledCard>
+                    </motion.div>
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <Typography variant="body1" sx={{ textAlign: 'center', mt: 3 }}>
+                No orders found.
+              </Typography>
+            )}
+          </Box>
 
           {/* Addresses Section */}
           <Box>
@@ -503,9 +503,9 @@ export default function UserDetails() {
                         setEditingAddress((prev) =>
                           prev
                             ? {
-                                ...prev,
-                                addressLine1: e.target.value,
-                              }
+                              ...prev,
+                              addressLine1: e.target.value,
+                            }
                             : null
                         )
                       }
@@ -520,9 +520,9 @@ export default function UserDetails() {
                         setEditingAddress((prev) =>
                           prev
                             ? {
-                                ...prev,
-                                city: e.target.value,
-                              }
+                              ...prev,
+                              city: e.target.value,
+                            }
                             : null
                         )
                       }
@@ -537,9 +537,9 @@ export default function UserDetails() {
                         setEditingAddress((prev) =>
                           prev
                             ? {
-                                ...prev,
-                                state: e.target.value,
-                              }
+                              ...prev,
+                              state: e.target.value,
+                            }
                             : null
                         )
                       }
