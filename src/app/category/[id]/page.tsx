@@ -72,6 +72,9 @@ const CategoryPage = () => {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
+          sx={{
+            marginTop: { xs: 0, sm: 16 },
+          }}
         >
           <Heading title={`${categoryName} Products`} textAlign="left" />
           {isMobile && (
