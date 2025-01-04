@@ -34,7 +34,7 @@ const CategoryPage = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedProducts = localStorage.getItem(id);
-      if (storedProducts) {
+      if (storedProducts && storedProducts.length > 0) {
         const categoryData = JSON.parse(storedProducts);
         setProducts(categoryData);
         if (categoryData && categoryData.length > 0)
