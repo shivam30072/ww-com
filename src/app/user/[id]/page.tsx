@@ -140,7 +140,7 @@ export default function UserDetails() {
     const { addressLine1, city, state, postalCode, country } = updatedAddress;
     // const user = JSON.parse(localStorage.getItem("user")).id;
     // newAddress.user = user;
-
+    // /v1/addresses/:addressId
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const user = JSON.parse(storedUser)?.id;
@@ -191,7 +191,7 @@ export default function UserDetails() {
 
   const handleSetPrimary = (id: string) => {
     axios
-      .put(
+      .patch(
         `${baseUrl}/v1/addresses/${id}`,
         { isPrimaryAddress: true },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -209,7 +209,7 @@ export default function UserDetails() {
   const handleEditAddress = () => {
     if (editingAddress?.addressLine1.trim()) {
       axios
-        .put(`${baseUrl}/v1/addresses/${editingAddress.id}`, editingAddress, {
+        .patch(`${baseUrl}/v1/addresses/${editingAddress.id}`, editingAddress, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(() => {
