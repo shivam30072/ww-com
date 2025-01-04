@@ -15,6 +15,10 @@ import {
   Fade,
   styled,
 } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { colors } from "@/app/constants";
 // import { styled } from "@mui/system";
 
@@ -80,6 +84,22 @@ export default function UserDetails() {
     postalCode: "",
     country: "",
   });
+  const handleDeleteAddress = (id: string) => {
+    if (confirm("Are you sure you want to delete this address?")) {
+      axios
+        .delete(`${baseUrl}/v1/addresses/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(() => refreshAddresses())
+        .catch((err) => {
+          if (err.response && err.response.status === 401) {
+            handleUnauthorized();
+          } else {
+            console.error(err);
+          }
+        });
+    }
+  }
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
@@ -293,47 +313,95 @@ export default function UserDetails() {
           </Box>
 
           {/* Addresses Section */}
-          <Box>
-            <Typography variant="h5" fontWeight="bold" gutterBottom>
-              Your Addresses
-            </Typography>
-            <Grid container spacing={2}>
-              {addresses.map((address) => (
-                <Grid item xs={12} sm={6} md={4} key={address.id}>
-                  <StyledCard>
-                    <CardContent>
-                      <Typography>{address.addressLine1}</Typography>
-                      <Typography>
-                        {address.city}, {address.state}
-                      </Typography>
-                      {address.isPrimaryAddress ? (
-                        <Typography color="primary">Primary Address</Typography>
-                      ) : (
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          onClick={() => handleSetPrimary(address.id)}
-                        >
-                          Set as Primary
-                        </Button>
-                      )}
-                      <Button
-                        variant="text"
-                        color="secondary"
-                        size="small"
-                        onClick={() => {
-                          setEditingAddress(address);
-                          setEditModalOpen(true);
-                        }}
-                      >
-                        Edit
-                      </Button>
-                    </CardContent>
-                  </StyledCard>
-                </Grid>
-              ))}
-            </Grid>
 
+<Box sx={{ fontFamily: 'Roboto, sans-serif' }}>
+  <Typography variant="h5" fontWeight="bold" gutterBottom>
+    Your Addresses
+  </Typography>
+  <Grid container spacing={2}>
+    {addresses.map((address) => (
+      <Grid item xs={12} sm={6} md={4} key={address.id}>
+        <StyledCard sx={{ position: 'relative', overflow: 'hidden' }}>
+          {/* Badge for primary/non-primary */}
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              px: 1.5,
+              py: 0.5,
+              backgroundColor: address.isPrimaryAddress ? 'primary.main' : 'grey.300',
+              color: 'white',
+              borderRadius: '0 0 0 12px',
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: 12,
+            }}
+          >
+            {address.isPrimaryAddress ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
+            <Typography variant="caption" sx={{ ml: 0.5 }}>
+              {address.isPrimaryAddress ? 'Primary' : 'Not Primary'}
+            </Typography>
+          </Box>
+
+          <CardContent sx={{ p: 2, mt: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              {/* Address Information */}
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="body1" fontWeight="bold" gutterBottom>
+                  {address.addressLine1}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {address.city}, {address.state}
+                </Typography>
+              </Box>
+
+              {/* Edit and Delete Buttons */}
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 1, ml: 0, mr: 0 }}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<EditIcon />}
+                  onClick={() => {
+                    setEditingAddress(address);
+                    setEditModalOpen(true);
+                  }}
+                >
+                  
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  size="small"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => handleDeleteAddress(address.id)}
+                  sx={{ml: 0, mr: 0}}
+                >
+                  
+                </Button>
+              </Box>
+            </Box>
+
+            {/* Set as Primary Button */}
+            {!address.isPrimaryAddress && (
+              <Box sx={{ mt: 2 }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  startIcon={<StarIcon />}
+                  onClick={() => handleSetPrimary(address.id)}
+                  sx={{ width: '100%' }}
+                >
+                  Set as Primary
+                </Button>
+              </Box>
+            )}
+          </CardContent>
+        </StyledCard>
+      </Grid>
+    ))}
+  </Grid>
             <Box sx={{ mt: 4 }}>
               <Typography variant="h6" fontWeight="bold">
                 Add New Address
