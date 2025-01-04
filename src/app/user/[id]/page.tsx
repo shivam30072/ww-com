@@ -27,6 +27,10 @@ interface User {
 }
 
 interface Order {
+  status: string;
+  orderHistory: { updatedAt: string }[];
+  products: [];
+  id: string;
   _id: string;
   createdAt: string;
   totalAmount: number;
@@ -297,12 +301,12 @@ export default function UserDetails() {
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                               <CartIcon sx={{ color: 'secondary.main', mr: 1 }} />
                               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                {order.products.length} items
+                                {order?.products.length} items
                               </Typography>
                             </Box>
                           </Box>
                           <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                            Date: {new Date(order.orderHistory[0].updatedAt).toLocaleDateString()}
+                          Date: {order?.orderHistory[0]?.updatedAt ? new Date(order?.orderHistory[0]?.updatedAt).toLocaleDateString() : new Date().toLocaleDateString()}
                           </Typography>
                           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                             Total: ₹{order.totalAmount.toFixed(2)}
