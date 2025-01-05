@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 "use client";
-import { ShoppingCart } from "@mui/icons-material";
+import { Close, ShoppingCart } from "@mui/icons-material";
+import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import Tooltip from "@mui/material/Tooltip";
 import BoltIcon from "@mui/icons-material/Bolt";
 import StarIcon from "@mui/icons-material/Star";
@@ -18,6 +19,7 @@ import {
   TextField,
   Container,
   styled,
+  Dialog,
 } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,6 +33,30 @@ import { colors } from "@/app/constants";
 const BASE_URL = process.env.BACKEND_BASE_URL;
 const USER_ID = process.env.USER_ID;
 
+const ImageModal = ({ open, handleClose, image }) => {
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="md"
+      fullWidth
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+    >
+      <img src={image} alt="Product Image" style={{ width: "100%" }} />
+      <Box
+        position={"absolute"}
+        top={0}
+        right={0}
+        m={1}
+        p={0.5}
+        onClick={handleClose}
+      >
+        <Close />
+      </Box>
+    </Dialog>
+  );
+};
+
 export default function ProductPage() {
   const [product, setProduct] = useState({});
   const [relatedProduct, setRelatedProduct] = useState([]);
@@ -42,8 +68,16 @@ export default function ProductPage() {
   const [description, setDescription] = useState("");
   const [specifications, setSpecifications] = useState({});
   const [currentImage, setCurrentImage] = useState<string>("");
-  // const [reviews, setReviews] = useState("");
-  // const [token, setToken] = useState("");
+  const [openImageModal, setOpenImageModal] = useState(false);
+
+  const handleOpenImageModal = () => {
+    setOpenImageModal(true);
+  };
+
+  const handleCloseImageModal = () => {
+    setOpenImageModal(false);
+  };
+
   const [categoryId, setCategoryId] = useState("");
   const [newReview, setNewReview] = useState({
     userName: "",
@@ -280,7 +314,12 @@ export default function ProductPage() {
           <Grid container spacing={4}>
             {/* Image Section */}
             <Grid item xs={12} sm={6}>
-              <Box display={"flex"} flexDirection="column" gap={3}>
+              <Box
+                position={"relative"}
+                display={"flex"}
+                flexDirection="column"
+                gap={3}
+              >
                 <Box
                   width={"100%"}
                   height={"400px"}
@@ -292,6 +331,22 @@ export default function ProductPage() {
                     borderRadius: "8px",
                   }}
                 />
+                <Box
+                  onClick={handleOpenImageModal}
+                  position={"absolute"}
+                  top={0}
+                  right={0}
+                  zIndex={100}
+                  m={1}
+                  p={0.5}
+                  sx={{
+                    cursor: "pointer",
+                    transition: "all 0.3s ease-in-out",
+                    backgroundColor: "#fff",
+                  }}
+                >
+                  <OpenInFullIcon />
+                </Box>
                 <Box
                   display={"flex"}
                   gap={1}
@@ -816,6 +871,11 @@ export default function ProductPage() {
           </Grid>
         </Container>
       )}
+      <ImageModal
+        open={openImageModal}
+        handleClose={handleCloseImageModal}
+        image={currentImage}
+      />
     </Box>
   );
 }
