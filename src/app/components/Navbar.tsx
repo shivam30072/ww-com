@@ -9,6 +9,11 @@ import {
   Container,
   Typography,
   CircularProgress,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -57,6 +62,46 @@ const Navbar = () => {
     useState<boolean>(false);
 
   const { products } = useAppSelector((state) => state.Cart);
+
+  const [address, setAddress] = useState("Click to update your location");
+  const [loading, setLoading] = useState(false);
+
+  const getAddressFromCoordinates = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+      );
+      if (response.data && response.data.display_name) {
+        setAddress(response.data.display_name);
+      } else {
+        setAddress("Unable to fetch address.");
+      }
+    } catch (error) {
+      console.error("Error fetching address:", error);
+      setAddress("Error fetching address.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      setLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          getAddressFromCoordinates(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error fetching location:", error.message);
+          setAddress("Unable to fetch location. Please allow location access.");
+          setLoading(false);
+        }
+      );
+    } else {
+      setAddress("Geolocation is not supported by your browser.");
+    }
+  };
 
   // const handleLoginOpen = () =>{
   //     router.push("/user/:id");
@@ -185,15 +230,24 @@ const Navbar = () => {
               />
             </Box>
 
+
             <Box
               display={{ xs: "none", sm: "flex" }}
               gap={0.5}
               mx={2}
-              justifyContent={"center"}
-              alignItems={"center"}
+              justifyContent="center"
+              alignItems="center"
+              onClick={getLocation}
+              sx={{ cursor: "pointer" }}
             >
               <LocationOnOutlined />
-              <Typography fontSize={"12px"}>Update your Location</Typography>
+              {loading ? (
+                <CircularProgress size={16} />
+              ) : (
+                <Typography fontSize="12px" sx={{ textDecoration: "underline" }}>
+                  {address}
+                </Typography>
+              )}
             </Box>
 
             <Box

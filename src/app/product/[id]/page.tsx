@@ -9,7 +9,7 @@ import StarIcon from "@mui/icons-material/Star";
 import {
   Box,
   Button,
-  Chip,
+  // Chip,
   Grid,
   Typography,
   Rating,
@@ -145,11 +145,11 @@ export default function ProductPage() {
     fontWeight: 600,
   }));
 
-  const Decimals = styled("span")({
-    fontSize: "70%",
-    lineHeight: "normal",
-    position: "relative",
-  });
+  // const Decimals = styled("span")({
+  //   fontSize: "70%",
+  //   lineHeight: "normal",
+  //   position: "relative",
+  // });
 
   const pathname = usePathname();
   const productId = pathname.split("/")[2];
