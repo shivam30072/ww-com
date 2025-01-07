@@ -123,7 +123,7 @@ export default function ProductPage() {
     },
   }));
 
-  const PriceItem = styled("li")(({}) => ({
+  const PriceItem = styled("li")(({ }) => ({
     display: "inline-block",
     marginRight: "10px",
     fontWeight: 500,
@@ -138,7 +138,7 @@ export default function ProductPage() {
     },
   }));
 
-  const PercentageOff = styled(Box)(({}) => ({
+  const PercentageOff = styled(Box)(({ }) => ({
     fontSize: "14px",
     color: "red",
     paddingLeft: "5px",
@@ -444,59 +444,65 @@ export default function ProductPage() {
                   >
                     {product.name}
                   </Typography>
-                  <Box
-                    className="cust-loox-rating"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      minWidth: "100px",
-                      justifyContent: "flex-end",
-                      marginLeft: "10px",
-                    }}
-                  >
+
+                  {product?.reviews?.length > 0 && (
                     <Box
-                      component="span"
-                      className="review-rating"
+                      className="cust-loox-rating"
                       sx={{
-                        background: "#679f37",
-                        color: "#fff",
-                        padding: "5px 8px",
                         display: "flex",
                         alignItems: "center",
-                        fontWeight: 400,
-                        fontSize: "13px",
-                        lineHeight: 1,
-                        borderRadius: "35px",
+                        minWidth: "100px",
+                        justifyContent: "flex-end",
+                        marginLeft: "10px",
                       }}
                     >
+                      <Box
+                        component="span"
+                        className="review-rating"
+                        sx={{
+                          background: "#679f37",
+                          color: "#fff",
+                          padding: "5px 8px",
+                          display: "flex",
+                          alignItems: "center",
+                          fontWeight: 400,
+                          fontSize: "13px",
+                          lineHeight: 1,
+                          borderRadius: "35px",
+                        }}
+                      >
+                        <Typography
+                          variant="body2"
+                          component="span"
+                          sx={{
+                            marginRight: "4px",
+                            lineHeight: 1,
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          {product.averageRating}
+                        </Typography>
+                        <StarIcon fontSize="small" />
+                      </Box>
                       <Typography
                         variant="body2"
-                        component="span"
+                        className="review-count"
                         sx={{
-                          marginRight: "4px",
-                          lineHeight: 1,
+                          fontSize: "13px",
+                          color: "#787878",
+                          marginLeft: "10px",
                           display: "flex",
                           alignItems: "center",
                         }}
                       >
-                        {product.averageRating}
+                        ({product?.reviews?.length})
                       </Typography>
-                      <StarIcon fontSize="small" />
                     </Box>
-                    <Typography
-                      variant="body2"
-                      className="review-count"
-                      sx={{
-                        fontSize: "13px",
-                        color: "#787878",
-                        marginLeft: "10px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      ({product?.reviews?.length})
-                    </Typography>
-                  </Box>
+
+                  )}
+
+
                 </Box>
                 <PriceContainer className="pdp-price-index">
                   <PriceWrapper className="pdp-price-wrapper">
@@ -519,7 +525,7 @@ export default function ProductPage() {
                             }}
                           >
                             ₹ {finalPrice?.toFixed(2)}
-                            <Decimals className="decimals">.00</Decimals>
+                            {/* <Decimals className="decimals">.00</Decimals> */}
                           </Typography>
                         </Typography>
                       </PriceItem>
@@ -536,7 +542,7 @@ export default function ProductPage() {
                           sx={{ textDecoration: "none" }}
                         >
                           ₹ {price?.toFixed(2)}
-                          <Decimals className="decimals">.00</Decimals>
+                          {/* <Decimals className="decimals">.00</Decimals> */}
                         </Typography>
                       </PriceItem>
                       <PriceItem>
