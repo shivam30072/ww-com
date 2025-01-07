@@ -8,12 +8,7 @@ import {
   Box,
   Container,
   Typography,
-  CircularProgress,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
+  CircularProgress
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -66,7 +61,7 @@ const Navbar = () => {
   const [address, setAddress] = useState("Click to update your location");
   const [loading, setLoading] = useState(false);
 
-  const getAddressFromCoordinates = async (latitude, longitude) => {
+  const getAddressFromCoordinates = async (latitude: number, longitude: number) => {
     try {
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
