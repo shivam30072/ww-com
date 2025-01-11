@@ -5,7 +5,7 @@ import { productTypes } from "@/app/types";
 import { addToCart } from "@/lib/features/CartSlice";
 import { addToCheckout } from "@/lib/features/CheckoutSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { ShoppingCart } from "@mui/icons-material";
+import { ShoppingCart, Star } from "@mui/icons-material";
 import { Box, Typography, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -48,6 +48,7 @@ const ProductCard = ({ productData }: productDataProp) => {
           height: { xs: "68%", sm: "100%" },
           background: `url(${productData.colors[0].images[0]})`,
           backgroundSize: "cover",
+          position: "relative",
           boxShadow:
             "rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px",
           transition: "transform 0.3s ease-in-out",
@@ -55,7 +56,45 @@ const ProductCard = ({ productData }: productDataProp) => {
             transform: "scale(1.010)",
           },
         }}
-      />
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            height: "40%",
+            background: "linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent)",
+          }}
+        />
+
+        {productData.averageRating && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "0px",
+              left: "0px",
+              backgroundColor: "rgba(0, 0, 0, 0.4)",
+              color: "#fff",
+              padding: "6px 12px",
+              borderRadius: "8px 0px 12px 0px",
+              fontSize: "14px",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              fontWeight: "bold",
+            }}
+          >
+            <Star fontSize="small" style={{ color: "#FFD700" }} />
+            <Typography fontSize="14px" fontWeight="bold">
+              {productData.averageRating.toFixed(1)}
+            </Typography>
+            <Typography fontSize="12px" color="#ccc">
+              ({productData.reviews.length})
+            </Typography>
+          </Box>
+        )}
+      </Box>
       <Box
         display={"flex"}
         justifyContent={"center"}
