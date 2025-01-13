@@ -67,8 +67,7 @@ const ProductCard = ({ productData }: productDataProp) => {
             background: "linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent)",
           }}
         />
-
-        {productData.averageRating && productData.averageRating > 0 && (
+        {productData.averageRating > 0 && Number(productData?.totalReviewsCount) > 0 && (
           <Box
             sx={{
               position: "absolute",
