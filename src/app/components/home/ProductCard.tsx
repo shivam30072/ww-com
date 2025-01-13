@@ -68,7 +68,7 @@ const ProductCard = ({ productData }: productDataProp) => {
           }}
         />
 
-        {productData.averageRating && (
+        {productData.averageRating && productData.averageRating > 0 && (
           <Box
             sx={{
               position: "absolute",
