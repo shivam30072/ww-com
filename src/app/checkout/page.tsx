@@ -46,9 +46,9 @@ export default function Checkout() {
 
   return (
     <Container
-      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      sx={{ display: "flex", justifyContent: "center", alignItems: "flex-end" }}
     >
-      <Box mt={15} minHeight={"100vh"} p={2} bgcolor="#fff" flex={1} gap={4}>
+      <Box mt={22} minHeight={"70vh"} bgcolor="#fff" flex={1} gap={4}>
         {/* Left Section: Checkout Form */}
         <Box>
           {/* Section 1: Product Details */}
@@ -152,7 +152,7 @@ export default function Checkout() {
           alt="Checkout Illustration"
           style={{
             maxWidth: "100%",
-            height: "500px",
+            height: "480px",
             borderRadius: "8px",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
           }}
