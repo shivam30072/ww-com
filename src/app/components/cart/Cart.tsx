@@ -9,6 +9,7 @@ import { Close, DeleteOutline } from "@mui/icons-material";
 import { Box, Button, Drawer, IconButton, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { colors } from "@/app/constants";
+import { useRouter } from "next/navigation";
 
 type cartProps = {
   drawerState: boolean;
@@ -18,6 +19,8 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
   const { products, cartSum } = useAppSelector((state) => state.Cart);
 
   const dispatch = useAppDispatch();
+
+  const router = useRouter();
 
   const isCartEmpty = products.length === 0;
   return (
@@ -140,6 +143,10 @@ const Cart = ({ drawerState, setDrawerState }: cartProps) => {
             borderTop="1px solid #ddd"
           >
             <Button
+              onClick={() => {
+                setDrawerState(false);
+                router.push("/checkout");
+              }}
               endIcon={<ArrowForwardIcon />}
               sx={{
                 width: "50%",
